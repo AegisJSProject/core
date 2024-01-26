@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.0.2] - 2024-01-26
+
+### Added
+- Add handling of formatting `values` containing `Element`s, `Array`s, `Date`s, & `Number`s
+
+### Fixed
+- Fix handling non-Node types in `addStyles()` & `replaceStyles()`
+
+### Changed
+- Directly install eslint & rollup as dev dependencies
+
 ## [v0.0.1] - 2024-01-25
 
 Initial Release

@@ -1,6 +1,6 @@
 {
   "name": "@shgysk8zer0/aegis",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A fast, secure, modern, light-weight, and simple JS library for creating web components and more!",
   "keywords": [
     "dom",
@@ -88,7 +88,8 @@
   },
   "homepage": "https://github.com/shgysk8zer0/aegis#readme",
   "devDependencies": {
-    "@shgysk8zer0/js-utils": "^1.0.1",
-    "http-server": "^14.1.1"
+    "eslint": "^8.56.0",
+    "http-server": "^14.1.1",
+    "rollup": "^4.9.6"
   }
 }

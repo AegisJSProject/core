@@ -1,12 +1,59 @@
+const lang = navigator.language;
+
+const formatDate = 'Intl' in globalThis && Intl.DateTimeFormat instanceof Function
+	? date => new Intl.DateTimeFormat(lang, { dateStyle: 'short', timeStyle: 'short' }).format(date)
+	: date => date.toLocaleString();
+
+const formatArray = 'Intl' in globalThis && Intl.ListFormat instanceof Function
+	? arr => new Intl.ListFormat().format(arr)
+	: arr => arr.join(', ');
+
+const formatNumber = 'Intl' in globalThis && Intl.NumberFormat instanceof Function
+	? num => new Intl.NumberFormat().format(num)
+	: num => num.toString();
+
+const formatEl = el => el.outerHTML;
+
+const stringify = thing => {
+	switch(typeof thing) {
+		case 'string':
+			return thing;
+
+		case 'number':
+			return formatNumber(thing);
+
+		case 'object':
+			if (Array.isArray(thing)) {
+				return formatArray(thing);
+			} else if (thing instanceof Element) {
+				return formatEl(thing);
+			} else if(thing instanceof Date) {
+				return formatDate(thing);
+			} else if (thing === null) {
+				return '';
+			} else {
+				return thing.toString();
+			}
+
+		case 'undefined':
+			return '';
+
+		default:
+			return thing.toString();
+	}
+};
+
 export function text(strings, ...values) {
-	if (! Array.isArray(strings)) {
+	if (typeof strings === 'string') {
+		return text([strings], ...values);
+	} else if (! Array.isArray(strings)) {
 		throw new TypeError('strings must be an array of strings.');
 	} else {
 		let str = '';
 
 		for (let i = 0; i < strings.length; i++) {
 			if (i < values.length) {
-				str += strings[i].toString().concat(values[i]);
+				str += strings[i].toString().concat(stringify(values[i]));
 			} else {
 				str += strings[i].toString();
 			}
@@ -16,9 +63,9 @@ export function text(strings, ...values) {
 	}
 }
 
-export const getUniqueSelector = (prefix = '_aegis-scope') => `${prefix}-${crypto.randomUUID()}`;
-
 const parseStr = args => text.apply(null, args);
+
+export const getUniqueSelector = (prefix = '_aegis-scope') => `${prefix}-${crypto.randomUUID()}`;
 
 export function createStyleSheet(rules, { media, disabled, baseURL } = {}) {
 	const sheet = new CSSStyleSheet({ media, disabled, baseURL });
@@ -43,7 +90,9 @@ export function createCSSParser({ media, disabled, baseURL } = {}) {
 }
 
 export function replaceStyles(target, ...sheets) {
-	if (target instanceof Document || target instanceof ShadowRoot) {
+	if (! (target instanceof Node)) {
+		throw new TypeError('Expected target to be a Document, DocumentFragment, ShadowRoot, or Element.');
+	} else if (target instanceof Document || target instanceof ShadowRoot) {
 		target.adoptedStyleSheets = sheets;
 	} else if (! (target instanceof Element || DocumentFragment)) {
 		throw new TypeError('Expected target to be a Document, DocumentFragment, ShadowRoot, or Element.');
@@ -57,8 +106,12 @@ export function replaceStyles(target, ...sheets) {
 }
 
 export function addStyles(target, ...sheets) {
-	if (target instanceof Document || target instanceof ShadowRoot) {
+	if (! (target instanceof Node)) {
+		throw new TypeError('Expected target to be a Document, DocumentFragment, ShadowRoot, or Element.');
+	} else if (target instanceof Document || target instanceof ShadowRoot) {
 		replaceStyles(target, ...target.adoptedStyleSheets, ...sheets);
+	} else if (target.shadowRoot instanceof ShadowRoot) {
+		return addStyles(target.shadowRoot, ...sheets);
 	} else {
 		return addStyles(target.getRootNode({ composed: false }), ...sheets);
 	}

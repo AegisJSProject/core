@@ -100,7 +100,7 @@ commit
 
 This library relies on the [Sanitizer API proposal](https://github.com/WICG/sanitizer-api)
 and [Constructable Stylesheets](https://web.dev/articles/constructable-stylesheets).
-At minimum, there **MUST** be a polyfill for [`Element.prototype.setHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/setHTML).
+At minimum, there **MUST** be a polyfill for [`Element.prototype.setHTML`](https://developer.mozilla.org/en-US/docs/Web/API/Element/setHTML).
 
 ## Performance/Optimization Tips
 
@@ -244,7 +244,7 @@ const html = createHTMLParser({
   allowAttributes: ['href', 'class', 'id', 'src'],
 });
 
-const css = createCSSParser({ media: '(prefers-color-scheme: dark)', bnaseURI: 'https://cdn.example.com' });
+const css = createCSSParser({ media: '(prefers-color-scheme: dark)', baseURI: 'https://cdn.example.com' });
 
 // `html` & `css` then function as the regular / exported function, but with their
 custom white/black lists / config options.

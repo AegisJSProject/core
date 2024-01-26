@@ -1,46 +1,65 @@
 {
-  "name": "npm-template",
-  "version": "1.1.1",
-  "description": "A template repo for npm packages",
-  "keywords": [],
+  "name": "@shgysk8zer0/aegis",
+  "version": "0.0.1",
+  "description": "A fast, secure, modern, light-weight, and simple JS library for creating web components and more!",
+  "keywords": [
+    "dom",
+    "html",
+    "css",
+    "secure",
+    "sanitizer-api",
+    "html-templates",
+    "constructable-stylesheets",
+    "custom-elements",
+    "web-components",
+    "component-library"
+  ],
   "type": "module",
-  "main": "./cjs/index.cjs",
-  "module": "./index.js",
-  "unpkg": "./index.js",
+  "main": "./aegis.cjs",
+  "module": "./aegis.js",
+  "unpkg": "./aegis.js",
   "exports": {
     ".": {
-      "import": "./index.js",
-      "require": "./cjs/index.cjs"
+      "import": "./aegis.js",
+      "require": "./aegis.cjs"
     },
     "./*.js": {
       "import": "./*.js",
-      "require": "./cjs/*.cjs"
+      "require": "./*.cjs"
     },
     "./*.mjs": {
       "import": "./*.js",
-      "require": "./cjs/*.cjs"
+      "require": "./*.cjs"
     },
     "./*.cjs": {
       "import": "./*.js",
-      "require": "./cjs/*.cjs"
+      "require": "./*.cjs"
     },
     "./*": {
       "import": "./*.js",
-      "require": "./cjs/*.cjs"
+      "require": "./*.cjs"
     }
   },
   "engines": {
     "node": ">=18.0.0"
   },
   "private": false,
+  "config": {
+    "serve": {
+      "domain": "localhost",
+      "path": "./",
+      "port": 8080
+    }
+  },
   "scripts": {
     "test": "npm run lint:js && npm run build",
+    "start": "http-server ${npm_package_config_serve_path} -c-1 --port ${npm_package_config_serve_port} --gzip true --brotli true -a ${npm_package_config_serve_domain} -o /test/",
     "preversion": "npm test",
     "prepare": "npm run build",
     "lint:js": "eslint .",
     "fix:js": "eslint . --fix",
     "build": "npm run build:js",
-    "clean": "rm -f ./cjs/*.cjs",
+    "clean": "rm *.cjs",
     "build:js": "npm run clean && rollup -c rollup.config.js",
     "create:lock": "npm i --package-lock-only --ignore-scripts --no-audit --no-fund",
     "version:bump": "npm run version:bump:patch",
@@ -50,7 +69,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shgysk8zer0/npm-template.git"
+    "url": "git+https://github.com/shgysk8zer0/aegis.git"
   },
   "author": "Chris Zuber <admin@kernvalley.us>",
   "license": "MIT",
@@ -65,12 +84,11 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/shgysk8zer0/npm-template/issues"
+    "url": "https://github.com/shgysk8zer0/aegis/issues"
   },
-  "homepage": "https://github.com/shgysk8zer0/npm-template#readme",
+  "homepage": "https://github.com/shgysk8zer0/aegis#readme",
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^15.2.3",
     "@shgysk8zer0/js-utils": "^1.0.1",
-    "@shgysk8zer0/npm-utils": "^1.1.2"
+    "http-server": "^14.1.1"
   }
 }

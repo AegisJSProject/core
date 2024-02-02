@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -7,19 +7,21 @@
 		<meta http-equiv="Content-Security-Policy" content="
 			default-src 'none';
 			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@kernvalley/ 'nonce-0037c7e2-902f-4638-baa6-47acbd665ceb';
-			style-src 'self' blob;
+			style-src 'self' blob: data:;
 			connect-src https://icanhazdadjoke.com https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@kernvalley/;
 			trusted-types empty#html empty#script;
 			require-trusted-types-for 'script';
 		" />
+		<title>Aegis Test</title>
 		<script type="importmap" nonce="0037c7e2-902f-4638-baa6-47acbd665ceb">
 			{
 				"imports": {
-					"@shgysk8zer0/aegis": "../aegis.js"
+					"@shgysk8zer0/aegis": "../aegis.js",
+					"@shgysk8zer0/aegis/": "../"
 				}
 			}
 		</script>
-		<script type="application/javascript" defer="" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-h2kgNESJV1KN7BmHtXZv1j5WMcwFojESsbaNydwul3t6bqHOmzVMDaDXAEe6XLC+" src="https://unpkg.com/@shgysk8zer0/polyfills@0.3.0/all.min.js" fetchpriority="auto"></script>
+		<script type="application/javascript" defer="" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-Shkrmxly5RI9mCU8DQr6l4VLVJzjPzgx9KP/f5i7pEcl7ZUt0wHiAweGjbpjU2d5" src="https://unpkg.com/@shgysk8zer0/polyfills@0.3.1/all.min.js" fetchpriority="auto"></script>
 		<script type="application/javascript" defer="" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-55L/wO9o0uIVTeubRIDQB4bewfNqyxrj4OXuxlW24NMEk+ioZwMHVw/tFV78mM+k" src="https://unpkg.com/@shgysk8zer0/kazoo@0.3.1/harden.js" fetchpriority="auto"></script>
 		<script type="module" referrerpolicy="no-referrer" src="./index.js"></script>
 	</head>

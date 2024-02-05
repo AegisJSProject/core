@@ -1,6 +1,7 @@
 import { html, css, replaceStyles, getUniqueSelector } from '@shgysk8zer0/aegis';
-import { reset, baseTheme, lightTheme, darkTheme } from './styles.js';
-import { getComponent } from './component.js';
+import { reset } from '@shgysk8zer0/aegis-styles/reset.js';
+import { baseTheme, lightTheme, darkTheme } from '@shgysk8zer0/aegis-styles/theme.js';
+import { getComponent } from '@shgysk8zer0/aegis-component';
 import './dad-joke.js';
 
 const scope = getUniqueSelector();

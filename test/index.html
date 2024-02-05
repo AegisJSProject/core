@@ -6,9 +6,9 @@
 		<meta name="color-scheme" content="light dark" />
 		<meta http-equiv="Content-Security-Policy" content="
 			default-src 'none';
-			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@kernvalley/ 'nonce-0037c7e2-902f-4638-baa6-47acbd665ceb';
+			script-src 'self' https://unpkg.com/@shgysk8zer0/ 'nonce-0037c7e2-902f-4638-baa6-47acbd665ceb';
 			style-src 'self' blob: data:;
-			connect-src https://icanhazdadjoke.com https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@kernvalley/;
+			connect-src https://icanhazdadjoke.com https://unpkg.com/@shgysk8zer0/;
 			trusted-types empty#html empty#script;
 			require-trusted-types-for 'script';
 		" />
@@ -17,7 +17,10 @@
 			{
 				"imports": {
 					"@shgysk8zer0/aegis": "../aegis.js",
-					"@shgysk8zer0/aegis/": "../"
+					"@shgysk8zer0/aegis/": "../",
+					"@shgysk8zer0/aegis-styles": "https://unpkg.com/@shgysk8zer0/aegis-styles@0.0.2",
+					"@shgysk8zer0/aegis-styles/": "https://unpkg.com/@shgysk8zer0/aegis-styles@0.0.2/",
+					"@shgysk8zer0/aegis-component": "https://unpkg.com/@shgysk8zer0/aegis-component@0.0.2"
 				}
 			}
 		</script>

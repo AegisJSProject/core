@@ -1,6 +1,6 @@
 import { html, css, replace, appendTo, addStyles } from '@shgysk8zer0/aegis';
-import { gray } from './palette.js';
-import { AegisComponent, registerComponent } from './component.js';
+import { gray } from '@shgysk8zer0/aegis-styles/palette/bootstrap.js';
+import { AegisComponent, registerComponent } from '@shgysk8zer0/aegis-component';
 import { updateIcon } from './icons.js';
 
 registerComponent('dad-joke', class HTMLDataJokeElement extends AegisComponent {
@@ -62,6 +62,7 @@ registerComponent('dad-joke', class HTMLDataJokeElement extends AegisComponent {
 		const resp = await fetch('https://icanhazdadjoke.com', {
 			headers: { Accept: 'text/plain' },
 			referrerPolicy: 'no-referrer',
+			crossOrigin: 'anonymous',
 			signal,
 		});
 

@@ -2,7 +2,7 @@
 
 A fast, secure, modern, light-weight, and simple JS library for creating web components and more! 
 
-[![CodeQL](https://github.com/shgysk8zer0/aegis/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/shgysk8zer0/npm-template/actions/workflows/codeql-analysis.yml)
+[![CodeQL](https://github.com/shgysk8zer0/aegis/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/shgysk8zer0/aegis/actions/workflows/codeql-analysis.yml)
 ![Node CI](https://github.com/shgysk8zer0/aegis/workflows/Node%20CI/badge.svg)
 ![Lint Code Base](https://github.com/shgysk8zer0/aegis/workflows/Lint%20Code%20Base/badge.svg)
 
@@ -11,10 +11,10 @@ A fast, secure, modern, light-weight, and simple JS library for creating web com
 [![GitHub release](https://img.shields.io/github/release/shgysk8zer0/aegis?logo=github)](https://github.com/shgysk8zer0/aegis/releases)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/shgysk8zer0?logo=github)](https://github.com/sponsors/shgysk8zer0)
 
-[![npm](https://img.shields.io/npm/v/@shgysk8zer0/npm-template)](https://www.npmjs.com/package/@shgysk8zer0/npm-template)
-![node-current](https://img.shields.io/node/v/@shgysk8zer0/npm-template)
-![npm bundle size gzipped](https://img.shields.io/bundlephobia/minzip/@shgysk8zer0/npm-template)
-[![npm](https://img.shields.io/npm/dw/@shgysk8zer0/npm-template?logo=npm)](https://www.npmjs.com/package/@shgysk8zer0/npm-template)
+[![npm](https://img.shields.io/npm/v/@shgysk8zer0/aegis)](https://www.npmjs.com/package/@shgysk8zer0/aegis)
+![node-current](https://img.shields.io/node/v/@shgysk8zer0/aegis)
+![npm bundle size gzipped](https://img.shields.io/bundlephobia/minzip/@shgysk8zer0/aegis)
+[![npm](https://img.shields.io/npm/dw/@shgysk8zer0/aegis?logo=npm)](https://www.npmjs.com/package/@shgysk8zer0/aegis)
 
 [![GitHub followers](https://img.shields.io/github/followers/shgysk8zer0.svg?style=social)](https://github.com/shgysk8zer0)
 ![GitHub forks](https://img.shields.io/github/forks/shgysk8zer0/aegis.svg?style=social)

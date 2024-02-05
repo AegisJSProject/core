@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.0.4] - 2024-02-04
+
+### Changed
+- Update tests to use `@shgysk8zer0/aegis-styles` & `@shgysk8zer0/aegis-component`
+
+### Fixed
+- Fix bad info/badges/links in README
+
 ## [v0.0.3] - 2024-02-01
 
 ### Added

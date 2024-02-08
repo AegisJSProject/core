@@ -6,14 +6,14 @@
 import * as sanitizerConfig from './sanitizerConfig.js';
 export * from './sanitizerConfig.js';
 
-const formatDate = date => `<time datetime="${date.toISOString()}" class="aegis-date">${date.toLocaleString(navigator.language, {
+const formatDate = date => date.toLocaleString(navigator.language, {
 	weekday: 'short',
 	month: 'short',
 	day: 'numeric',
 	year: 'numeric',
 	hour: 'numeric',
 	minute: '2-digit',
-})}</time>`;
+});
 
 const formatArray = 'Intl' in globalThis && Intl.ListFormat instanceof Function
 	? arr => new Intl.ListFormat().format(arr.map(stringify))
@@ -41,7 +41,7 @@ const stringify = thing => {
 			} else if(thing instanceof Date) {
 				return formatDate(thing);
 			} else if ('Iterator' in globalThis && thing instanceof globalThis.Iterator) {
-				return stringify(thing.toArray());
+				return stringify([...thing]);
 			} else if (thing === null) {
 				return '';
 			} else {
@@ -56,27 +56,7 @@ const stringify = thing => {
 	}
 };
 
-export function text(strings, ...values) {
-	if (typeof strings === 'string') {
-		return text([strings], ...values);
-	} else if (! Array.isArray(strings)) {
-		throw new TypeError('strings must be an array of strings.');
-	} else {
-		let str = '';
-
-		for (let i = 0; i < strings.length; i++) {
-			if (i < values.length) {
-				str += strings[i].toString().concat(stringify(values[i]));
-			} else {
-				str += strings[i].toString();
-			}
-		}
-
-		return str;
-	}
-}
-
-const parseStr = args => text.apply(null, args);
+export const text = (raw, ...args) => String.raw(raw, args.map(stringify));
 
 export const getUniqueSelector = (prefix = '_aegis-scope') => `${prefix}-${crypto.randomUUID()}`;
 
@@ -98,11 +78,11 @@ export function createHTMLParser({
 	allowUnknownMarkup = sanitizerConfig.allowUnknownMarkup,
 	allowComments = sanitizerConfig.allowComments,
 } = sanitizerConfig) {
-	return (...args) => {
+	return (strings, ...args) => {
 		const el = document.createElement('div');
 		const frag = document.createDocumentFragment();
 
-		el.setHTML(parseStr(args), {
+		el.setHTML(text(strings, ...args), {
 			allowElements, allowAttributes, allowCustomElements,
 			allowUnknownMarkup, allowComments
 		});
@@ -114,7 +94,7 @@ export function createHTMLParser({
 }
 
 export function createCSSParser({ media, disabled, baseURL } = {}) {
-	return (...args) => createStyleSheet(parseStr(args), { media, disabled, baseURL });
+	return (strings, ...args) => createStyleSheet(text(strings, ...args), { media, disabled, baseURL });
 }
 
 export function replaceStyles(target, ...sheets) {
@@ -153,10 +133,10 @@ export const lightCSS = createCSSParser({ media: '(prefers-color-scheme: light)'
 
 export const darkCSS = createCSSParser({ media: '(prefers-color-scheme: dark)', baseURL: document.baseURI });
 
-export const json = (...args) => JSON.parse(parseStr(args));
+export const json = (strings, ...args) => JSON.parse(text(strings, args));
 
-export const svg = (...args) => {
-	const parsedStr = parseStr(args);
+export const svg = (strings, ...args) => {
+	const parsedStr = text(strings, ...args);
 
 	// Check for xmlns on <svg>
 	if (! parsedStr.match(/^\s*<svg\s[^>]*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/)) {
@@ -168,8 +148,8 @@ export const svg = (...args) => {
 
 };
 
-export const xml = (...args) => new DOMParser()
-	.parseFromString(parseStr(args), 'application/xml');
+export const xml = (strings, ...args) => new DOMParser()
+	.parseFromString(text(strings, ...args), 'application/xml');
 
 export function appendTo(target, ...items) {
 	if (! (target instanceof Node)) {

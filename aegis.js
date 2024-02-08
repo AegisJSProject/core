@@ -56,7 +56,7 @@ const stringify = thing => {
 	}
 };
 
-export const text = (raw, ...args) => String.raw(raw, args.map(stringify));
+export const text = (raw, ...args) => String.raw(Array.isArray(raw) ? raw : [raw], args.map(stringify));
 
 export const getUniqueSelector = (prefix = '_aegis-scope') => `${prefix}-${crypto.randomUUID()}`;
 
@@ -71,6 +71,26 @@ export function createStyleSheet(rules, { media, disabled, baseURL } = {}) {
 	}
 }
 
+export function sanitizeString(str, {
+	allowElements = sanitizerConfig.allowElements,
+	allowAttributes = sanitizerConfig.allowAttributes,
+	allowCustomElements = sanitizerConfig.allowCustomElements,
+	allowUnknownMarkup = sanitizerConfig.allowUnknownMarkup,
+	allowComments = sanitizerConfig.allowComments,
+} = sanitizerConfig) {
+	const el = document.createElement('div');
+	const frag = document.createDocumentFragment();
+
+	el.setHTML(str, {
+		allowElements, allowAttributes, allowCustomElements,
+		allowUnknownMarkup, allowComments
+	});
+
+	frag.append(...el.children);
+
+	return frag;
+}
+
 export function createHTMLParser({
 	allowElements = sanitizerConfig.allowElements,
 	allowAttributes = sanitizerConfig.allowAttributes,
@@ -78,19 +98,10 @@ export function createHTMLParser({
 	allowUnknownMarkup = sanitizerConfig.allowUnknownMarkup,
 	allowComments = sanitizerConfig.allowComments,
 } = sanitizerConfig) {
-	return (strings, ...args) => {
-		const el = document.createElement('div');
-		const frag = document.createDocumentFragment();
-
-		el.setHTML(text(strings, ...args), {
-			allowElements, allowAttributes, allowCustomElements,
-			allowUnknownMarkup, allowComments
-		});
-		frag.append(...el.children);
-
-		return frag;
-
-	};
+	return (strings, ...args) =>  sanitizeString(text(strings, ...args), {
+		allowElements, allowAttributes, allowCustomElements,
+		allowUnknownMarkup, allowComments
+	});
 }
 
 export function createCSSParser({ media, disabled, baseURL } = {}) {

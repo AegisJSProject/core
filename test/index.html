@@ -4,23 +4,24 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="color-scheme" content="light dark" />
-		<meta http-equiv="Content-Security-Policy" content="
-			default-src 'none';
-			script-src 'self' https://unpkg.com/@shgysk8zer0/ 'nonce-0037c7e2-902f-4638-baa6-47acbd665ceb';
+		<meta http-equiv="Content-Security-Policy"
+			content="default-src 'none';
+			script-src 'self' https://unpkg.com/@shgysk8zer0/ 'sha384-sEZHY5s3EVOtSOk2on2ohawJgDJCF2syHikVzJwj47nzEf5gsziUWZ2QMcmzli7C';
 			style-src 'self' blob: data:;
 			connect-src https://icanhazdadjoke.com https://unpkg.com/@shgysk8zer0/;
-			trusted-types empty#html empty#script;
-			require-trusted-types-for 'script';
-		" />
+			trusted-types empty#html empty#script sanitizer-raw#html default;
+			require-trusted-types-for 'script';" />
 		<title>Aegis Test</title>
-		<script type="importmap" nonce="0037c7e2-902f-4638-baa6-47acbd665ceb">
+		<script type="importmap" integrity="sha384-sEZHY5s3EVOtSOk2on2ohawJgDJCF2syHikVzJwj47nzEf5gsziUWZ2QMcmzli7C">
 			{
 				"imports": {
 					"@shgysk8zer0/aegis": "../aegis.js",
 					"@shgysk8zer0/aegis/": "../",
-					"@shgysk8zer0/aegis-styles": "https://unpkg.com/@shgysk8zer0/aegis-styles@0.0.2",
-					"@shgysk8zer0/aegis-styles/": "https://unpkg.com/@shgysk8zer0/aegis-styles@0.0.2/",
-					"@shgysk8zer0/aegis-component": "https://unpkg.com/@shgysk8zer0/aegis-component@0.0.2"
+					"@shgysk8zer0/aegis-styles": "../node_modules/@shgysk8zer0/aegis-styles/styles.js",
+					"@shgysk8zer0/aegis-styles/": "../node_modules/@shgysk8zer0/aegis-styles/",
+					"@shgysk8zer0/aegis-component": "../node_modules/@shgysk8zer0/aegis-component/component.js",
+					"@shgysk8zer0/aegis-component/": "../node_modules/@shgyk8zer0/aegis-component/",
+					"@shgysk8zer0/": "../node_modules/@shgysk8zer0/"
 				}
 			}
 		</script>

@@ -3,16 +3,40 @@
  * @see https://wicg.github.io/sanitizer-api/#default-configuration-dictionary
  */
 
-import * as sanitizerConfig from './sanitizerConfig.js';
-export * from './sanitizerConfig.js';
+import {
+	allowCustomElements, allowUnknownMarkup, allowComments, allowElements,
+	allowAttributes,
+} from './sanitizerConfig.js';
 
-const formatDate = date => date.toLocaleString(navigator.language, {
+export const sanitizerConfig = {
+	allowCustomElements, allowUnknownMarkup, allowComments, allowElements,
+	allowAttributes,
+};
+
+export {
+	setProp, setAttr, isTrustPolicy, hasDefaultPolicy, getAttributeType,
+	getPropertyType, isHTML, isScript, isScriptURL, isTrustedType, createHTML,
+	createScript, createScriptURL, createPolicy, getDefaultPolicy,
+} from './trust.js';
+
+export const DATE_FORMAT = {
 	weekday: 'short',
 	month: 'short',
 	day: 'numeric',
 	year: 'numeric',
 	hour: 'numeric',
 	minute: '2-digit',
+};
+
+export const formatDate = (date, {
+	weekday = DATE_FORMAT.weekday,
+	month = DATE_FORMAT.month,
+	day = DATE_FORMAT.day,
+	year = DATE_FORMAT.year,
+	hour = DATE_FORMAT.hour,
+	minute = DATE_FORMAT.minute,
+} = DATE_FORMAT) => date.toLocaleString(navigator.language, {
+	weekday, month, day, year, hour, minute,
 });
 
 const formatArray = 'Intl' in globalThis && Intl.ListFormat instanceof Function

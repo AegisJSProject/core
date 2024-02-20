@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.0.7] - 2024-02-20
+
+### Added
+- Add utility functions for [`trustedTypes`](https://developer.mozilla.org/en-US/docs/Web/API/trustedTypes)
+
 ## [v0.0.6] - 2024-02-08
 
 ### Added

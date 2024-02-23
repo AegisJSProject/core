@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.0.8] - 2024-02-23
+
+### Changed
+- Update stringifying, preferring direct use of `String.raw()`
+
 ## [v0.0.7] - 2024-02-20
 
 ### Added

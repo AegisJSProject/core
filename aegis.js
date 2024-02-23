@@ -1,6 +1,5 @@
 /**
  * @copyright 2023-2024 Chris Zuber <admin@kernvalley.us>
- * @see https://wicg.github.io/sanitizer-api/#default-configuration-dictionary
  */
 
 import {
@@ -80,7 +79,9 @@ const stringify = thing => {
 	}
 };
 
-export const text = (raw, ...args) => String.raw(Array.isArray(raw) ? raw : [raw], args.map(stringify));
+export const text = (strings, ...values) => Array.isArray(strings) && Array.isArray(strings.raw)
+	? String.raw(strings, ...values.map(stringify))
+	: String.raw({ raw: Array.isArray(strings) ? strings : [strings] }, ...values.map(stringify));
 
 export const getUniqueSelector = (prefix = '_aegis-scope') => `${prefix}-${crypto.randomUUID()}`;
 
@@ -121,15 +122,16 @@ export function createHTMLParser({
 	allowCustomElements = sanitizerConfig.allowCustomElements,
 	allowUnknownMarkup = sanitizerConfig.allowUnknownMarkup,
 	allowComments = sanitizerConfig.allowComments,
+	...rest
 } = sanitizerConfig) {
-	return (strings, ...args) =>  sanitizeString(text(strings, ...args), {
+	return (strings, ...values) => sanitizeString(String.raw(strings, ...values.map(stringify)), {
 		allowElements, allowAttributes, allowCustomElements,
-		allowUnknownMarkup, allowComments
+		allowUnknownMarkup, allowComments, ...rest,
 	});
 }
 
 export function createCSSParser({ media, disabled, baseURL } = {}) {
-	return (strings, ...args) => createStyleSheet(text(strings, ...args), { media, disabled, baseURL });
+	return (...args) => createStyleSheet(String.raw.apply(null, args), { media, disabled, baseURL });
 }
 
 export function replaceStyles(target, ...sheets) {
@@ -168,23 +170,23 @@ export const lightCSS = createCSSParser({ media: '(prefers-color-scheme: light)'
 
 export const darkCSS = createCSSParser({ media: '(prefers-color-scheme: dark)', baseURL: document.baseURI });
 
-export const json = (strings, ...args) => JSON.parse(text(strings, args));
+export const json = (strings, ...values) => JSON.parse(text(strings, ...values));
 
-export const svg = (strings, ...args) => {
-	const parsedStr = text(strings, ...args);
+export const svg = (strings, ...values) => {
+	const parsedStr = String.raw(strings, ...values.map(stringify));
 
 	// Check for xmlns on <svg>
 	if (! parsedStr.match(/^\s*<svg\s[^>]*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/)) {
 		// Add xmlns to the root SVG element
-		return svg([parsedStr.replace(/^\s*<svg\s+/, '<svg xmlns="http://www.w3.org/2000/svg" ')]);
+		return svg({ raw: [parsedStr.replace(/^\s*<svg\s+/, '<svg xmlns="http://www.w3.org/2000/svg" ')] });
 	} else {
 		return new DOMParser().parseFromString(parsedStr, 'image/svg+xml').documentElement;
 	}
 
 };
 
-export const xml = (strings, ...args) => new DOMParser()
-	.parseFromString(text(strings, ...args), 'application/xml');
+export const xml = (strings, ...values) => new DOMParser()
+	.parseFromString(String.raw(strings, ...values.map(stringify)), 'application/xml');
 
 export function appendTo(target, ...items) {
 	if (! (target instanceof Node)) {

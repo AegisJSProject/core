@@ -90,7 +90,7 @@
   },
   "homepage": "https://github.com/AegisJSProject/core#readme",
   "devDependencies": {
-    "@shgysk8zer0/aegis-component": "^0.0.3",
+    "@shgysk8zer0/aegis-component": "^0.0.4",
     "@shgysk8zer0/aegis-styles": "^0.0.3",
     "eslint": "^8.56.0",
     "http-server": "^14.1.1",

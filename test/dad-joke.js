@@ -1,4 +1,4 @@
-import { html, css, replace, addStyles } from '@shgysk8zer0/aegis';
+import { html, css, replace, addStyles } from '@aegisjsproject/core';
 import { gray } from '@shgysk8zer0/aegis-styles/palette/bootstrap.js';
 import { AegisComponent, registerComponent } from '@shgysk8zer0/aegis-component';
 import { updateIcon } from './icons.js';

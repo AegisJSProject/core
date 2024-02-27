@@ -1,7 +1,7 @@
 export default {
-	input: 'aegis.js',
+	input: 'core.js',
 	output: {
-		file: 'aegis.cjs',
+		file: 'core.cjs',
 		format: 'cjs',
 	},
 };

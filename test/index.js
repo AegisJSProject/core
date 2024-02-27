@@ -1,4 +1,4 @@
-import { html, css, replaceStyles, getUniqueSelector, createPolicy } from '@shgysk8zer0/aegis';
+import { html, css, replaceStyles, getUniqueSelector, createPolicy } from '@aegisjsproject/core';
 import { reset } from '@shgysk8zer0/aegis-styles/reset.js';
 import { baseTheme, lightTheme, darkTheme } from '@shgysk8zer0/aegis-styles/theme.js';
 import { getComponent } from '@shgysk8zer0/aegis-component';

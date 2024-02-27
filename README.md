@@ -1,24 +1,24 @@
-# `@shgysk8zer0/aegis`
+# `@aegisjsproject/core`
 
 A fast, secure, modern, light-weight, and simple JS library for creating web components and more! 
 
-[![CodeQL](https://github.com/shgysk8zer0/aegis/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/shgysk8zer0/aegis/actions/workflows/codeql-analysis.yml)
-![Node CI](https://github.com/shgysk8zer0/aegis/workflows/Node%20CI/badge.svg)
-![Lint Code Base](https://github.com/shgysk8zer0/aegis/workflows/Lint%20Code%20Base/badge.svg)
+[![CodeQL](https://github.com/AegisJSProject/core/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/AegisJSProject/core/actions/workflows/codeql-analysis.yml)
+![Node CI](https://github.com/AegisJSProject/core/workflows/Node%20CI/badge.svg)
+![Lint Code Base](https://github.com/AegisJSProject/core/workflows/Lint%20Code%20Base/badge.svg)
 
-[![GitHub license](https://img.shields.io/github/license/shgysk8zer0/aegis.svg)](https://github.com/shgysk8zer0/aegis/blob/master/LICENSE)
-[![GitHub last commit](https://img.shields.io/github/last-commit/shgysk8zer0/aegis.svg)](https://github.com/shgysk8zer0/aegis/commits/master)
-[![GitHub release](https://img.shields.io/github/release/shgysk8zer0/aegis?logo=github)](https://github.com/shgysk8zer0/aegis/releases)
+[![GitHub license](https://img.shields.io/github/license/AegisJSProject/core.svg)](https://github.com/AegisJSProject/core/blob/master/LICENSE)
+[![GitHub last commit](https://img.shields.io/github/last-commit/AegisJSProject/core.svg)](https://github.com/AegisJSProject/core/commits/master)
+[![GitHub release](https://img.shields.io/github/release/AegisJSProject/core?logo=github)](https://github.com/AegisJSProject/core/releases)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/shgysk8zer0?logo=github)](https://github.com/sponsors/shgysk8zer0)
 
-[![npm](https://img.shields.io/npm/v/@shgysk8zer0/aegis)](https://www.npmjs.com/package/@shgysk8zer0/aegis)
-![node-current](https://img.shields.io/node/v/@shgysk8zer0/aegis)
-![npm bundle size gzipped](https://img.shields.io/bundlephobia/minzip/@shgysk8zer0/aegis)
-[![npm](https://img.shields.io/npm/dw/@shgysk8zer0/aegis?logo=npm)](https://www.npmjs.com/package/@shgysk8zer0/aegis)
+[![npm](https://img.shields.io/npm/v/aegisjsproject/core)](https://www.npmjs.com/package/aegisjsproject/core)
+![node-current](https://img.shields.io/node/v/aegisjsproject/core)
+![npm bundle size gzipped](https://img.shields.io/bundlephobia/minzip/aegisjsproject/core)
+[![npm](https://img.shields.io/npm/dw/aegisjsproject/core?logo=npm)](https://www.npmjs.com/package/aegisjsproject/core)
 
 [![GitHub followers](https://img.shields.io/github/followers/shgysk8zer0.svg?style=social)](https://github.com/shgysk8zer0)
-![GitHub forks](https://img.shields.io/github/forks/shgysk8zer0/aegis.svg?style=social)
-![GitHub stars](https://img.shields.io/github/stars/shgysk8zer0/aegis.svg?style=social)
+![GitHub forks](https://img.shields.io/github/forks/AegisJSProject/core.svg?style=social)
+![GitHub stars](https://img.shields.io/github/stars/AegisJSProject/core.svg?style=social)
 [![Twitter Follow](https://img.shields.io/twitter/follow/shgysk8zer0.svg?style=social)](https://twitter.com/shgysk8zer0)
 
 [![Donate using Liberapay](https://img.shields.io/liberapay/receives/shgysk8zer0.svg?logo=liberapay)](https://liberapay.com/shgysk8zer0/donate "Donate using Liberapay")
@@ -32,7 +32,7 @@ A fast, secure, modern, light-weight, and simple JS library for creating web com
 
 ### CDN / `unpkg.com`
 
-The preferred method of using Aegis is via `import` from `https://unpkg.com/@shgysk8zer0/aegis[@:version]`.
+The preferred method of using Aegis is via `import` from `https://unpkg.com/aegisjsproject/core[@:version]`.
 You may use [Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity),
 but this is only recommended *if* you include a version in the script URL. For
 convenience, you maybe desire using [`<script type="importmap">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap) in your development setup and a plug-in such as
@@ -44,7 +44,7 @@ when bundling for production.
 Of course, you could always stick with the the more familiar package installation:
 
 ```bash
-npm install @shgysk8zer0/aegis
+npm install aegisjsproject/core
 ```
 
 That works just fine, should you prefer.
@@ -54,7 +54,7 @@ That works just fine, should you prefer.
 A final option is installing via a [git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
 
 ```bash
-git submodule add https://github.com/shgysk8zer0/aegis.git [:destination_path]
+git submodule add https://github.com/AegisJSProject/core.git [:destination_path]
 ```
 
 Submodules ultimately make little difference compared to the CDN or installing the
@@ -110,7 +110,7 @@ in multiple places. Should you wish to reuse the fragment and only generate it o
 please use [`cloneNode(true)`](https://developer.mozilla.org/en-US/docs/Web/API/Node/cloneNode):
 
 ```js
-import { html } from '@shgysk8zer0/aegis';
+import { html } from 'aegisjsproject/core';
 
 const tmp = html`<!-- Your HTML here -->`
 
@@ -132,7 +132,7 @@ are not yet standardized or implemented anywhere, this library allows for easy
 HTML templates and styles via plain old ES/JS Modules:
 
 ```js
-import { html, css } from '@shgysk8zer0/aegis';
+import { html, css } from 'aegisjsproject/core';
 
 export const template = html`<!-- Your Markup Here -->`;
 
@@ -155,7 +155,7 @@ outside of the context of web components (using `ShadowRoot`), you should create
 a unique selector and utilize that when composing your stylesheets:
 
 ```js
-import { css, html, getUniqueSelector, addStyles } from '@shgysk8zer0/aegis';
+import { css, html, getUniqueSelector, addStyles } from '@aegisjsproject/core';
 
 const scope = getUniqueSelector();
 
@@ -171,7 +171,7 @@ addStyles(document, css`#${scope} .my-class {color: red;}`);
 ## Basic Web Component Example - `<dad-joke>`
 
 ```js
-import { html, css, replaceStyles } from '@shgysk8zer0/aegis';
+import { html, css, replaceStyles } from '@aegisjsproject/core';
 
 const styles = css`:host {
 	display: block;
@@ -237,7 +237,7 @@ which returns a custom `css` parsing function.
 ### Advanced Exampled
 
 ```js
-import { createHTMLParser, createCSSParser } from '@shgysk8zer0/aegis';
+import { createHTMLParser, createCSSParser } from 'aegisjsproject/core';
 
 const html = createHTMLParser({
   allowElements: ['h1', 'h2', 'span', 'a', 'img', 'blockquote'],

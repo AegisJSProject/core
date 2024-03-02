@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+##[v0.1.1] - 2024-03-02
+
+### Added
+- Add component and callback registry
+- Add support for registering event handlers via attributes
+
+### Changed
+- Split into more modules
+- Use `npm link` to use local `@aegisjsproejct/styles` & `@aegisjsproject/component`
+- Provide individual parsers via own modules
+
+### Fixed
+- Allow `shadowrootmode` instead of `shadowroot`
+
 ## [v0.1.0] - 2024-02-27
 
 ### Changed

@@ -1,92 +1,87 @@
-import { html, css, replace, addStyles } from '@aegisjsproject/core';
-import { gray } from '@shgysk8zer0/aegis-styles/palette/bootstrap.js';
-import { AegisComponent, registerComponent } from '@shgysk8zer0/aegis-component';
+import { html, css, replace, registerCallback, getHost, AEGIS_EVENT_HANDLER_CLASS, EVENTS } from '@aegisjsproject/core';
+import { gray } from '@aegisjsproject/styles/palette/bootstrap.js';
+import { AegisComponent, SYMBOLS, TRIGGERS } from '@aegisjsproject/component';
 import { updateIcon } from './icons.js';
 
-registerComponent('dad-joke', class HTMLDataJokeElement extends AegisComponent {
-	constructor() {
-		super();
+const styles = css`
+:host {
+	padding: 1.2rem;
+	width: clamp(400px, 100%, 600px);
+	border-radius: 14px;
+	border: 1px solid ${gray[3]};
+}
 
-		matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ({ isTrusted, target }) => {
-			if (isTrusted) {
-				this.triggerUpdate('color-scheme', {
-					mediaQuery: target,
-					matches: target.matches,
-					media: target.media,
-				});
-			}
-		});
+[part="joke"] {
+	height: 4rem;
+	overflow-y: auto;
+}
+
+::slotted(p) {
+	margin: 0;
+}
+
+.icon {
+	vertical-align: bottom;
+	height: 1em;
+	height: 1lh;
+	width: auto;
+}
+
+.joke {
+	font-family: system-ui;
+	padding: 1.3rem;
+	border-radius: 8px;
+	border: 1px solid #cacaca;
+}`;
+
+const template = html`
+<div part="container">
+	<div part="joke">
+		<slot name="joke">Loading...</slot>
+	</div>
+	<button ${EVENTS.onClick}="${registerCallback('aegis:dad-joke:update', event => {
+	try {
+		getHost(event.target).triggerUpdate('click');
+	} catch(err) {
+		console.error(err);
+	}
+})}" type="button" id="update-btn" class="btn btn-primary ${AEGIS_EVENT_HANDLER_CLASS}" part="btn">
+		<span>Get new Dad Joke</span>
+	</button>
+`;
+
+class HTMLDataJokeElement extends AegisComponent {
+	constructor() {
+		super({ styles, template });
 	}
 
-	async [Symbol.for('aegis:render')](type, { shadow, ...data }) {
+	async [SYMBOLS.render](type, { shadow, ...data }) {
 		switch(type) {
-			case 'connected':
-				if (shadow.adoptedStyleSheets.length < 6) {
-					addStyles(shadow, css`:host {
-						padding: 1.2rem;
-						width: clamp(400px, 100%, 600px);
-						border-radius: 14px;
-						border: 1px solid ${gray[3]};
-					}
-
-					[part="joke"] {
-						height: 4rem;
-						overflow-y: auto;
-					}
-
-					::slotted(p) {
-						margin: 0;
-					}
-
-					.icon {
-						vertical-align: bottom;
-						height: 1em;
-						height: 1lh;
-						width: auto;
-					}
-
-					.joke {
-						font-family: system-ui;
-						padding: 1.3rem;
-						border-radius: 8px;
-						border: 1px solid #cacaca;
-					}`);
-				}
-
-				shadow.replaceChildren(html`<div part="container">
-					<div part="joke">
-						<slot name="joke">Loading...</slot>
-					</div>
-					<button type="button" id="update-btn" class="btn btn-primary" part="btn">
-						<span>Get new Dad Joke</span>
-					</button>
-				</div>`);
-
-				// Cannot add listeners or `on*` attributes using `html`
-				shadow.getElementById('update-btn').addEventListener('click', () => this.triggerUpdate('click'));
-
-				// Also, for now, elements of a different namespace, such as `<svg>` are not supported
+			case TRIGGERS.constructed:
 				shadow.getElementById('update-btn').append(updateIcon.cloneNode(true));
-				replace(this, html`<p slot="joke">${await HTMLDataJokeElement.getJoke()}</p>`);
+				await this.update();
 				break;
 
 			case 'click':
-				replace(this, html`<p slot="joke">${await HTMLDataJokeElement.getJoke()}</p>`);
-				break;
-
-			case 'color-scheme':
-			case 'attribute':
-				console.log({ type, ...data });
+				await this.update();
 				break;
 
 			default:
-				throw new DOMException(`Unhandled render trigger: "${type}".`);
-
+				console.log({ type, ...data });
+				break;
 		}
 	}
 
+	async update({ signal } = {}) {
+		replace(this, html`<p slot="joke">${await HTMLDataJokeElement.getJoke({ signal })}</p>`);
+	}
+
+	static get endpoint() {
+		return new URL('https://icanhazdadjoke.com');
+	}
+
 	static async getJoke({ signal } = {}) {
-		const resp = await fetch('https://icanhazdadjoke.com', {
+		const resp = await fetch(HTMLDataJokeElement.endpoint, {
 			headers: { Accept: 'text/plain' },
 			referrerPolicy: 'no-referrer',
 			crossOrigin: 'anonymous',
@@ -95,4 +90,6 @@ registerComponent('dad-joke', class HTMLDataJokeElement extends AegisComponent {
 
 		return await resp.text();
 	}
-});
+}
+
+HTMLDataJokeElement.register('dad-joke');

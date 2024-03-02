@@ -2,15 +2,19 @@
  * @copyright 2023-2024 Chris Zuber <admin@kernvalley.us>
  */
 
-import {
-	allowCustomElements, allowUnknownMarkup, allowComments, allowElements,
-	allowAttributes,
-} from './sanitizerConfig.js';
+export { sanitizerConfig } from './sanitizerConfig.js';
 
-export const sanitizerConfig = {
-	allowCustomElements, allowUnknownMarkup, allowComments, allowElements,
-	allowAttributes,
-};
+export { attachListeners, AEGIS_EVENT_HANDLER_CLASS, EVENTS } from './events.js';
+
+export {
+	hasCallback, getCallback, listCallbacks, callCallback, createCallback,
+	closeRegistration, registerCallback, getHost, FUNCS,
+} from './callbackRegistry.js';
+
+export {
+	text, createStyleSheet, createCSSParser, css, lightCSS, darkCSS, sanitizeString,
+	createHTMLParser, html, xml, svg, json,
+} from './parsers.js';
 
 export {
 	setProp, setAttr, isTrustPolicy, hasDefaultPolicy, getAttributeType,
@@ -18,223 +22,8 @@ export {
 	createScript, createScriptURL, createPolicy, getDefaultPolicy,
 } from './trust.js';
 
-export const DATE_FORMAT = {
-	weekday: 'short',
-	month: 'short',
-	day: 'numeric',
-	year: 'numeric',
-	hour: 'numeric',
-	minute: '2-digit',
-};
+export { DATE_FORMAT, formatDate, stringify } from './stringify.js';
 
-export const formatDate = (date, {
-	weekday = DATE_FORMAT.weekday,
-	month = DATE_FORMAT.month,
-	day = DATE_FORMAT.day,
-	year = DATE_FORMAT.year,
-	hour = DATE_FORMAT.hour,
-	minute = DATE_FORMAT.minute,
-} = DATE_FORMAT) => date.toLocaleString(navigator.language, {
-	weekday, month, day, year, hour, minute,
-});
+export { getUniqueSelector, replaceStyles, addStyles, appendTo, prependTo, replace } from './dom.js';
 
-const formatArray = 'Intl' in globalThis && Intl.ListFormat instanceof Function
-	? arr => new Intl.ListFormat().format(arr.map(stringify))
-	: arr => arr.join(', ');
-
-const formatNumber = 'Intl' in globalThis && Intl.NumberFormat instanceof Function
-	? num => new Intl.NumberFormat().format(num)
-	: num => num.toString();
-
-const formatEl = el => el.outerHTML;
-
-const stringify = thing => {
-	switch(typeof thing) {
-		case 'string':
-			return thing;
-
-		case 'number':
-			return formatNumber(thing);
-
-		case 'object':
-			if (Array.isArray(thing)) {
-				return formatArray(thing);
-			} else if (thing instanceof Element) {
-				return formatEl(thing);
-			} else if(thing instanceof Date) {
-				return formatDate(thing);
-			} else if ('Iterator' in globalThis && thing instanceof globalThis.Iterator) {
-				return stringify([...thing]);
-			} else if (thing === null) {
-				return '';
-			} else {
-				return thing.toString();
-			}
-
-		case 'undefined':
-			return '';
-
-		default:
-			return thing.toString();
-	}
-};
-
-export const text = (strings, ...values) => Array.isArray(strings) && Array.isArray(strings.raw)
-	? String.raw(strings, ...values.map(stringify))
-	: String.raw({ raw: Array.isArray(strings) ? strings : [strings] }, ...values.map(stringify));
-
-export const getUniqueSelector = (prefix = '_aegis-scope') => `${prefix}-${crypto.randomUUID()}`;
-
-export function createStyleSheet(rules, { media, disabled, baseURL } = {}) {
-	if (media instanceof MediaQueryList) {
-		return createStyleSheet(rules, { media: media.media, disabled, baseURL });
-	} else {
-		const sheet = new CSSStyleSheet({ media, disabled, baseURL });
-		sheet.replaceSync(rules);
-
-		return sheet;
-	}
-}
-
-export function sanitizeString(str, {
-	allowElements = sanitizerConfig.allowElements,
-	allowAttributes = sanitizerConfig.allowAttributes,
-	allowCustomElements = sanitizerConfig.allowCustomElements,
-	allowUnknownMarkup = sanitizerConfig.allowUnknownMarkup,
-	allowComments = sanitizerConfig.allowComments,
-} = sanitizerConfig) {
-	const el = document.createElement('div');
-	const frag = document.createDocumentFragment();
-
-	el.setHTML(str, {
-		allowElements, allowAttributes, allowCustomElements,
-		allowUnknownMarkup, allowComments
-	});
-
-	frag.append(...el.children);
-
-	return frag;
-}
-
-export function createHTMLParser({
-	allowElements = sanitizerConfig.allowElements,
-	allowAttributes = sanitizerConfig.allowAttributes,
-	allowCustomElements = sanitizerConfig.allowCustomElements,
-	allowUnknownMarkup = sanitizerConfig.allowUnknownMarkup,
-	allowComments = sanitizerConfig.allowComments,
-	...rest
-} = sanitizerConfig) {
-	return (strings, ...values) => sanitizeString(String.raw(strings, ...values.map(stringify)), {
-		allowElements, allowAttributes, allowCustomElements,
-		allowUnknownMarkup, allowComments, ...rest,
-	});
-}
-
-export function createCSSParser({ media, disabled, baseURL } = {}) {
-	return (...args) => createStyleSheet(String.raw.apply(null, args), { media, disabled, baseURL });
-}
-
-export function replaceStyles(target, ...sheets) {
-	if (! (target instanceof Node)) {
-		throw new TypeError('Expected target to be a Document, DocumentFragment, ShadowRoot, or Element.');
-	} else if (target instanceof Document || target instanceof ShadowRoot) {
-		target.adoptedStyleSheets = sheets;
-	} else if (! (target instanceof Element || DocumentFragment)) {
-		throw new TypeError('Expected target to be a Document, DocumentFragment, ShadowRoot, or Element.');
-	} else if (target.shadowRoot instanceof ShadowRoot) {
-		return replaceStyles(target.shadowRoot, ...sheets);
-	} else if (! target.isConnected) {
-		throw new TypeError('Target is not connected to the document yet.');
-	} else {
-		return replaceStyles(target.getRootNode({ composed: false }), ...sheets);
-	}
-}
-
-export function addStyles(target, ...sheets) {
-	if (! (target instanceof Node)) {
-		throw new TypeError('Expected target to be a Document, DocumentFragment, ShadowRoot, or Element.');
-	} else if (target instanceof Document || target instanceof ShadowRoot) {
-		replaceStyles(target, ...target.adoptedStyleSheets, ...sheets);
-	} else if (target.shadowRoot instanceof ShadowRoot) {
-		return addStyles(target.shadowRoot, ...sheets);
-	} else {
-		return addStyles(target.getRootNode({ composed: false }), ...sheets);
-	}
-}
-
-export const html = createHTMLParser(sanitizerConfig);
-
-export const css = createCSSParser({ baseURL: document.baseURI });
-
-export const lightCSS = createCSSParser({ media: '(prefers-color-scheme: light)', baseURL: document.baseURI });
-
-export const darkCSS = createCSSParser({ media: '(prefers-color-scheme: dark)', baseURL: document.baseURI });
-
-export const json = (strings, ...values) => JSON.parse(text(strings, ...values));
-
-export const svg = (strings, ...values) => {
-	const parsedStr = String.raw(strings, ...values.map(stringify));
-
-	// Check for xmlns on <svg>
-	if (! parsedStr.match(/^\s*<svg\s[^>]*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/)) {
-		// Add xmlns to the root SVG element
-		return svg({ raw: [parsedStr.replace(/^\s*<svg\s+/, '<svg xmlns="http://www.w3.org/2000/svg" ')] });
-	} else {
-		return new DOMParser().parseFromString(parsedStr, 'image/svg+xml').documentElement;
-	}
-
-};
-
-export const xml = (strings, ...values) => new DOMParser()
-	.parseFromString(String.raw(strings, ...values.map(stringify)), 'application/xml');
-
-export function appendTo(target, ...items) {
-	if (! (target instanceof Node)) {
-		throw new TypeError('Target must be a Node.');
-	} else {
-		const styles = items.filter(item => item instanceof CSSStyleSheet);
-		const children = items.filter(item => typeof item === 'string' || item instanceof Node);
-
-		if (styles.length !== 0) {
-			addStyles(target, ...styles);
-		}
-
-		if (children.length !== 0) {
-			target.append(...children);
-		}
-	}
-}
-
-export function prependTo(target, ...items) {
-	if (! (target instanceof Node)) {
-		throw new TypeError('Target must be a Node.');
-	} else {
-		const styles = items.filter(item => item instanceof CSSStyleSheet);
-		const children = items.filter(item => typeof item === 'string' || item instanceof Node);
-
-		if (styles.length !== 0) {
-			addStyles(target, ...styles);
-		}
-
-		if (children.length !== 0) {
-			target.prepend(...children);
-		}
-	}
-}
-
-export function replace(target, ...items) {
-	if (! (target instanceof Node)) {
-		throw new TypeError('Target must be a Node.');
-	} else {
-		const styles = items.filter(item => item instanceof CSSStyleSheet);
-		const children = items.filter(item => typeof item === 'string' || item instanceof Node);
-
-		if (styles.length !== 0) {
-			replaceStyles(target, ...styles);
-		}
-
-		if (children.length !== 0) {
-			target.replaceChildren(...children);
-		}
-	}
-}
+export { registerComponent, getRegisteredComponentTags, getRegisteredComponents } from './componentRegistry.js';

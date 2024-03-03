@@ -11,12 +11,12 @@ A fast, secure, modern, light-weight, and simple JS library for creating web com
 [![GitHub release](https://img.shields.io/github/release/AegisJSProject/core?logo=github)](https://github.com/AegisJSProject/core/releases)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/shgysk8zer0?logo=github)](https://github.com/sponsors/shgysk8zer0)
 
-[![npm](https://img.shields.io/npm/v/aegisjsproject/core)](https://www.npmjs.com/package/aegisjsproject/core)
-![node-current](https://img.shields.io/node/v/aegisjsproject/core)
-![npm bundle size gzipped](https://img.shields.io/bundlephobia/minzip/aegisjsproject/core)
-[![npm](https://img.shields.io/npm/dw/aegisjsproject/core?logo=npm)](https://www.npmjs.com/package/aegisjsproject/core)
+[![npm](https://img.shields.io/npm/v/@aegisjsproject/core)](https://www.npmjs.com/package/@aegisjsproject/core)
+![node-current](https://img.shields.io/node/v/@aegisjsproject/core)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/%40aegisjsproject%2Fcore)
+[![npm](https://img.shields.io/npm/dw/@aegisjsproject/core?logo=npm)](https://www.npmjs.com/package@/aegisjsproject/core)
 
-[![GitHub followers](https://img.shields.io/github/followers/shgysk8zer0.svg?style=social)](https://github.com/shgysk8zer0)
+[![GitHub followers](https://img.shields.io/github/followers/shgysk8zer0.svg?style=social)](https://github.com/AegisJSProject)
 ![GitHub forks](https://img.shields.io/github/forks/AegisJSProject/core.svg?style=social)
 ![GitHub stars](https://img.shields.io/github/stars/AegisJSProject/core.svg?style=social)
 [![Twitter Follow](https://img.shields.io/twitter/follow/shgysk8zer0.svg?style=social)](https://twitter.com/shgysk8zer0)

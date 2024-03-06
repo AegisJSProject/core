@@ -6,6 +6,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.3] - 2024-03-05
+
+### Added
+- Components registered via `registerComponent()` are now automatically allowed in sanitizer `allowElements`
+- Handle wider variety of objects (such as `HTMLTemplateElement` and `NodeList`) in `stringify()`
+
+### Changed
+- Update `README.md` to be more accurate/current
+- Query by calculated selector of attributes in `attachListeners()`
+
+### Fixed
+- Remove `nonce` and update `integrity` in CSP & `<script type="importmap">`
+
+### Deprecated
+- `AEGIS_EVENT_HANDLER_CLASS` is no longer needed and is deprecated
+
+### Removed
+- Remove references to unused `<aegis-modal>`
+
 ## [v0.1.2] - 2024-03-02
 
 ### Changed

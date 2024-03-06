@@ -16,7 +16,7 @@ A fast, secure, modern, light-weight, and simple JS library for creating web com
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/%40aegisjsproject%2Fcore)
 [![npm](https://img.shields.io/npm/dw/@aegisjsproject/core?logo=npm)](https://www.npmjs.com/package@/aegisjsproject/core)
 
-[![GitHub followers](https://img.shields.io/github/followers/shgysk8zer0.svg?style=social)](https://github.com/AegisJSProject)
+[![GitHub followers](https://img.shields.io/github/followers/AegisJSProject.svg?style=social)](https://github.com/AegisJSProject)
 ![GitHub forks](https://img.shields.io/github/forks/AegisJSProject/core.svg?style=social)
 ![GitHub stars](https://img.shields.io/github/stars/AegisJSProject/core.svg?style=social)
 [![Twitter Follow](https://img.shields.io/twitter/follow/shgysk8zer0.svg?style=social)](https://twitter.com/shgysk8zer0)
@@ -110,7 +110,7 @@ in multiple places. Should you wish to reuse the fragment and only generate it o
 please use [`cloneNode(true)`](https://developer.mozilla.org/en-US/docs/Web/API/Node/cloneNode):
 
 ```js
-import { html } from 'aegisjsproject/core';
+import { html } from '@aegisjsproject/core';
 
 const tmp = html`<!-- Your HTML here -->`
 
@@ -132,7 +132,7 @@ are not yet standardized or implemented anywhere, this library allows for easy
 HTML templates and styles via plain old ES/JS Modules:
 
 ```js
-import { html, css } from 'aegisjsproject/core';
+import { html, css } from '@aegisjsproject/core';
 
 export const template = html`<!-- Your Markup Here -->`;
 
@@ -171,53 +171,57 @@ addStyles(document, css`#${scope} .my-class {color: red;}`);
 ## Basic Web Component Example - `<dad-joke>`
 
 ```js
-import { html, css, replaceStyles } from '@aegisjsproject/core';
+import { html, css, registerComponent, registerCallback, attachListeners, EVENTS } from '@aegisjsproject/core';
 
 const styles = css`:host {
-	display: block;
+  display: block;
 }
 
-blockquote {
-	font-family: system-ui;
-	padding: 1.3rem;
-	border-radius: 8px;
-	border: 1px solid #cacaca;
+p.joke {
+  font-family: system-ui;
+  padding: 1.3rem;
+  border-radius: 8px;
+  border: 1px solid #cacaca;
 }
 
 button {
-	cursor: pointer;
+  cursor: pointer;
 }`;
 
-customElements.define('dad-joke', class HTMLDataJokeElement extends HTMLElement {
-	constructor() {
-		super();
-		this.attachShadow({ mode: 'open' });
-	}
+const render = registerCallback('dad-joke:render', event => event.target.getRootNode().host.render());
 
-	connectedCallback() {
-		this.render();
-	}
+const template = html`<div part="container">
+  <div id="joke-container"></div>
+  <button type="button" class="btn btn-primary" part="update-btn" ${EVENTS.onClick}="${render}">Update</button>
+</div>`;
 
-	async render({ signal } = {}) {
-		this.shadowRoot.replaceChildren(html`
-			<blockquote>${await HTMLDataJokeElement.getJoke({ signal })}</blockquote>
-			<button type="button">Get new Dad Joke</button>
-		`);
+registerComponent('dad-joke', class HTMLDataJokeElement extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.adoptedStyleSheets = [styles];
+    this.shadowRoot.append(attachListeners(template.cloneNode(true)));
+  }
 
-		this.shadowRoot.querySelector('button').addEventListener('click', () => this.render());
+  connectedCallback() {
+    this.render();
+  }
 
-		replaceStyles(this, styles);
-	}
+  async render({ signal } = {}) {
+    this.shadowRoot.getElementById('joke-container').replaceChildren(
+      html`<p class="joke">${await HTMLDataJokeElement.getJoke({ signal })}</p>`
+    );
+  }
 
-	static async getJoke({ signal } = {}) {
-		const resp = await fetch('https://icanhazdadjoke.com', {
-			headers: { Accept: 'text/plain' },
-			referrerPolicy: 'no-referrer',
-			signal,
-		});
+  static async getJoke({ signal } = {}) {
+    const resp = await fetch('https://icanhazdadjoke.com', {
+      headers: { Accept: 'text/plain' },
+      referrerPolicy: 'no-referrer',
+      signal,
+    });
 
-		return await resp.text();
-	}
+    return await resp.text();
+  }
 });
 ```
 
@@ -237,7 +241,7 @@ which returns a custom `css` parsing function.
 ### Advanced Exampled
 
 ```js
-import { createHTMLParser, createCSSParser } from 'aegisjsproject/core';
+import { createHTMLParser, createCSSParser } from '@aegisjsproject/core';
 
 const html = createHTMLParser({
   allowElements: ['h1', 'h2', 'span', 'a', 'img', 'blockquote'],
@@ -248,6 +252,30 @@ const css = createCSSParser({ media: '(prefers-color-scheme: dark)', baseURI: 'h
 
 // `html` & `css` then function as the regular / exported function, but with their
 custom white/black lists / config options.
+```
+
+## Event handlers
+
+Although `onclick` and other event attributes are stripped out by the sanitizer,
+you can still (more securely) add event listeners when authoring HTML.
+
+This works by registering a callback (in a private `Map` object) which stores the
+name as the key and the registered callback/function as the value. `registerCallback()`
+adds the name and callback to the map and returns the key. `attachListeners()` can
+then be used to call `addEventListener()` for the given value of the attribute by
+retrieving the function from the map.
+
+**NOTE**: The attribute name is subject to change, so you should only use `EVENTS.onClick`,
+etc, instead of setting the attribute manually.
+
+```js
+import { registerCallback } from '@aegisjsproject/core/callbackRegistry.js';
+import { EVENTS, attachListeners } from '@aegisjsproject/core/events.js';
+
+const log = registerCallback('log', console.log);
+
+const logBtn = attachListeners(html`<button ${EVENTS.onClick}="${log}">Click Me!</button>`);
+const backBtn = attachListeners(html`<button ${EVENTS.onCLick}="${registerCallback('back', () => history.back())}">Back</button>`
 ```
 
 ## SVG Generation

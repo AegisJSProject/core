@@ -2,6 +2,7 @@ import { eventAttrs, EVENT_PREFIX_LENGTH } from './sanitizerConfig.js';
 import { hasCallback, getCallback } from './callbackRegistry.js';
 
 export const AEGIS_EVENT_HANDLER_CLASS = '_aegis-event-handler';
+const selector = eventAttrs.map(attr => `[${CSS.escape(attr)}]`).join(', ');
 
 export const EVENTS = Object.fromEntries(eventAttrs.map(attr => [
 	`on${attr[EVENT_PREFIX_LENGTH].toUpperCase() + attr.substring(EVENT_PREFIX_LENGTH + 1)}`,
@@ -9,7 +10,7 @@ export const EVENTS = Object.fromEntries(eventAttrs.map(attr => [
 ]));
 
 export function attachListeners(target, { signal } = {}) {
-	target.querySelectorAll(`.${AEGIS_EVENT_HANDLER_CLASS}`).forEach(el => {
+	target.querySelectorAll(selector).forEach(el => {
 		for (const attr of el.getAttributeNames().filter(name => eventAttrs.includes(name))) {
 			const val = el.getAttribute(attr);
 

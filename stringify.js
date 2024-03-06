@@ -1,3 +1,5 @@
+import { styleSheetToLink } from './utility.js';
+
 export const DATE_FORMAT = {
 	weekday: 'short',
 	month: 'short',
@@ -33,26 +35,51 @@ export const stringify = thing => {
 		case 'string':
 			return thing;
 
-		case 'number':
-			return formatNumber(thing);
+		case 'boolean':
+			return thing ? 'true' : 'false';
 
-		case 'object':
-			if (Array.isArray(thing)) {
-				return formatArray(thing);
-			} else if (thing instanceof Element) {
-				return formatEl(thing);
-			} else if(thing instanceof Date) {
-				return formatDate(thing);
-			} else if ('Iterator' in globalThis && thing instanceof globalThis.Iterator) {
-				return stringify([...thing]);
-			} else if (thing === null) {
-				return '';
-			} else {
-				return thing.toString();
-			}
+		case 'symbol':
+			return thing.description;
+
+		case 'number':
+		case 'bigint':
+			return formatNumber(thing);
 
 		case 'undefined':
 			return '';
+
+		case 'object':
+			if (thing === null) {
+				return '';
+			} else if (Array.isArray(thing)) {
+				return formatArray(thing);
+			} else if (thing instanceof HTMLTemplateElement) {
+				const el = document.createElement('div');
+				el.append(thing.content.cloneNode(true));
+				return el.innerHTML;
+			} else if (thing instanceof Element) {
+				return formatEl(thing);
+			} else if (thing instanceof DocumentFragment) {
+				const el = document.createElement('div');
+				el.append(thing.cloneNode(true));
+				return el.innerHTML;
+			} else if(thing instanceof Date) {
+				return formatDate(thing);
+			} else if (thing instanceof CSSStyleSheet) {
+				return styleSheetToLink(thing).outerHTML;
+			} else if (thing instanceof DOMTokenList) {
+				return [...thing].join(' ');
+			} else if (thing instanceof NodeList || thing instanceof HTMLCollection || thing instanceof HTMLFormControlsCollection) {
+				return [...thing].map(el => el.outerHTML).join('\n');
+			} else if (thing instanceof MediaList) {
+				return thing.mediaText;
+			} else if ('TrustedType' in globalThis && thing instanceof globalThis.TrustedType) {
+				return thing;
+			} else if ('Iterator' in globalThis && thing instanceof globalThis.Iterator) {
+				return stringify([...thing]);
+			} else {
+				return thing.toString();
+			}
 
 		default:
 			return thing.toString();

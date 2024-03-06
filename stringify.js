@@ -1,4 +1,4 @@
-import { styleSheetToLink } from './utility.js';
+import { styleSheetToLink } from './parsers/css.js';
 
 export const DATE_FORMAT = {
 	weekday: 'short',

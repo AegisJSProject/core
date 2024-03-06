@@ -1,4 +1,4 @@
-import { html, css, replace, registerCallback, getHost, AEGIS_EVENT_HANDLER_CLASS, EVENTS } from '@aegisjsproject/core';
+import { html, css, replace, registerCallback, getHost, EVENTS } from '@aegisjsproject/core';
 import { gray } from '@aegisjsproject/styles/palette/bootstrap.js';
 import { AegisComponent, SYMBOLS, TRIGGERS } from '@aegisjsproject/component';
 import { updateIcon } from './icons.js';
@@ -45,7 +45,7 @@ const template = html`
 	} catch(err) {
 		console.error(err);
 	}
-})}" type="button" id="update-btn" class="btn btn-primary ${AEGIS_EVENT_HANDLER_CLASS}" part="btn">
+})}" type="button" id="update-btn" class="btn btn-primary" part="btn">
 		<span>Get new Dad Joke</span>
 	</button>
 `;

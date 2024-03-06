@@ -6,13 +6,13 @@
 		<meta name="color-scheme" content="light dark" />
 		<meta http-equiv="Content-Security-Policy"
 			content="default-src 'none';
-			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@aegisjsproject/ 'sha384-z00C+r/e+I1mYMOID0+ivQIyrVhwtoXQZ75ohGBL1hgHzznjQSR4Rg0l4jQp22H4' 'nonce-dfgdfhjg';
+			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@aegisjsproject/ 'sha384-wWmXu1qSFwjrObR4l4KERFlhjCraqRivvXh682CyCGHtnQ0jLdHJn6d4hpSYdKME';
 			style-src 'self' blob: data:;
 			connect-src https://icanhazdadjoke.com https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@kernvalley/;
 			trusted-types empty#html empty#script sanitizer-raw#html default;
 			require-trusted-types-for 'script';" />
 		<title>Aegis Test</title>
-		<script type="importmap" nonce="dfgdfhjg" integrity="sha384-z00C+r/e+I1mYMOID0+ivQIyrVhwtoXQZ75ohGBL1hgHzznjQSR4Rg0l4jQp22H4">
+		<script type="importmap" integrity="sha384-wWmXu1qSFwjrObR4l4KERFlhjCraqRivvXh682CyCGHtnQ0jLdHJn6d4hpSYdKME">
 			{
 				"imports": {
 					"@aegisjsproject/core": "../core.js",
@@ -30,5 +30,11 @@
 		<script type="application/javascript" defer="" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-55L/wO9o0uIVTeubRIDQB4bewfNqyxrj4OXuxlW24NMEk+ioZwMHVw/tFV78mM+k" src="https://unpkg.com/@shgysk8zer0/kazoo@0.3.1/harden.js" fetchpriority="auto"></script>
 		<script type="module" referrerpolicy="no-referrer" src="./index.js"></script>
 	</head>
-	<body></body>
+	<body>
+		<template id="tmp">
+			<dad-joke></dad-joke>
+			<p>Lorem Ipsum and all that...</p>
+			Free text...
+		</template>
+	</body>
 </html>

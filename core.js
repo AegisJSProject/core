@@ -12,8 +12,9 @@ export {
 } from './callbackRegistry.js';
 
 export {
-	text, createStyleSheet, createCSSParser, css, lightCSS, darkCSS, sanitizeString,
-	createHTMLParser, html, xml, svg, json,
+	text, createStyleSheet, createCSSParser, css, lightCSS, darkCSS ,
+	styleSheetToFile, styleSheetToLink, sanitizeString, createHTMLParser, html,
+	htmlToFile, xml, svg, json,
 } from './parsers.js';
 
 export {

@@ -4,7 +4,7 @@
 
 export { sanitizerConfig } from './sanitizerConfig.js';
 
-export { attachListeners, AEGIS_EVENT_HANDLER_CLASS, EVENTS } from './events.js';
+export { attachListeners, EVENTS } from './events.js';
 
 export {
 	hasCallback, getCallback, listCallbacks, callCallback, createCallback,
@@ -23,7 +23,7 @@ export {
 	createScript, createScriptURL, createPolicy, getDefaultPolicy,
 } from './trust.js';
 
-export { DATE_FORMAT, formatDate, stringify } from './stringify.js';
+export { DATE_FORMAT, formatDate, stringify, data, attr } from './stringify.js';
 
 export { getUniqueSelector, replaceStyles, addStyles, appendTo, prependTo, replace } from './dom.js';
 

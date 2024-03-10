@@ -17,3 +17,9 @@ export function getRegisteredComponentTags() {
 export function getRegisteredComponents() {
 	return Object.freeze(Array.from(registry, tag => customElements.get(tag)));
 }
+
+export function getAttributes(tag) {
+	const constructor = customElements.get(tag);
+
+	return constructor instanceof Function ? constructor.observedAttributes() : [];
+}

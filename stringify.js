@@ -1,4 +1,64 @@
 import { styleSheetToLink } from './parsers/css.js';
+import { createCallback } from  './callbackRegistry.js';
+
+export const escapeAttrVal = str => str.toString()
+	.replaceAll('"', '&quot;')
+	.replaceAll(/&(?![a-zA-Z\d]{2,5};|#\d{1,3};)/g, '&amp;');
+
+function createAttribute(name, value = '', namespace) {
+	const attr = typeof namespace === 'string'
+		? document.createAttributeNS(namespace, name)
+		: document.createAttribute(name);
+
+	attr.value = value;
+
+	return attr;
+}
+
+const toData = ([name, val]) => ['data-' + name.replaceAll(/[A-Z]/g, c => `-${c.toLowerCase()}`), val];
+
+export const attr = attrs => Object.entries(attrs).map(([attr, val]) => {
+	switch(typeof val) {
+		case 'string':
+			return createAttribute(attr, val);
+
+		case 'number':
+		case 'bigint':
+			return Number.isNaN(val) ? undefined : createAttribute(attr, val.toString());
+
+		case 'boolean':
+			return val ? createAttribute(attr) : undefined;
+
+		case 'undefined':
+			return undefined;
+
+		case 'function':
+			return createCallback(val);
+
+		case 'object':
+			if (val === null) {
+				return undefined;
+			} else if (val instanceof URL) {
+				return createAttribute(attr, val.href);
+			} else if (val instanceof Date) {
+				return createAttribute(attr, val.toISOString());
+			} else {
+				return createAttribute(attr, val.toString());
+			}
+
+		case 'symbol':
+			return createAttribute(attr, val.description);
+
+		default:
+			return createAttribute(attr, val.toString());
+	}
+}).filter(attr => attr instanceof Attr)
+	.map(attr => `${attr.name}="${escapeAttrVal(attr.value)}"`)
+	.join(' ');
+
+export function data(dataObj) {
+	return attr(Object.fromEntries(Object.entries(dataObj).map(toData)));
+}
 
 export const DATE_FORMAT = {
 	weekday: 'short',
@@ -48,6 +108,9 @@ export const stringify = thing => {
 		case 'undefined':
 			return '';
 
+		case 'function':
+			return createCallback(thing);
+
 		case 'object':
 			if (thing === null) {
 				return '';
@@ -73,6 +136,10 @@ export const stringify = thing => {
 				return [...thing].map(el => el.outerHTML).join('\n');
 			} else if (thing instanceof MediaList) {
 				return thing.mediaText;
+			} else if (thing instanceof Attr) {
+				return `${thing.name}="${escapeAttrVal(thing.value)}"`;
+			} else if (thing instanceof NamedNodeMap) {
+				return [...thing].map(node => `${node.name}="${escapeAttrVal(node.value)}"`).join(' ');
 			} else if ('TrustedType' in globalThis && thing instanceof globalThis.TrustedType) {
 				return thing;
 			} else if ('Iterator' in globalThis && thing instanceof globalThis.Iterator) {

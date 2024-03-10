@@ -2,6 +2,10 @@ let isRegistrationOpen = true;
 
 export const closeRegistration = () => isRegistrationOpen = false;
 
+function $(selector, base = document) {
+	return base.querySelectorAll(selector);
+}
+
 export const FUNCS = {
 	debug: {
 		log: 'aegis:debug:log',
@@ -14,12 +18,26 @@ export const FUNCS = {
 		forward: 'aegis:navigate:forward',
 		reload: 'aegis:navigate:reload',
 		link: 'aegis:navigate:go',
+		popup: 'aegis:navigate:popup',
 	},
-	print: 'aegis:print',
+	ui: {
+		print: 'aegis:ui:print',
+		remove: 'aegis:ui:remove',
+		hide: 'aegis:ui:hide',
+		unhide: 'aegis:ui:unhide',
+		showModal: 'aegis:ui:showModal',
+		closeModal: 'aegis:ui:closeModal',
+		showPopover: 'aegis:ui:showPopover',
+		hidePopover: 'aegis:ui:hidePopover',
+		togglePopover: 'aegis:ui:togglePopover',
+		enable: 'aegis:ui:enable',
+		disable: 'aegis:ui:disable',
+		scrollTo: 'aegis:ui:scrollTo',
+	},
 };
 
 const handlers = new Map([
-	[FUNCS.debuglog, console.log],
+	[FUNCS.debug.log, console.log],
 	[FUNCS.debug.warn, console.warn],
 	[FUNCS.debug.error, console.error],
 	[FUNCS.debug.info, console.info],
@@ -29,12 +47,78 @@ const handlers = new Map([
 	[FUNCS.navigate.link, event => {
 		if (event.isTrusted) {
 			event.preventDefault();
-			location.href = event.currentTarget.href;
+			location.href = event.currentTarget.dataset.url;
 		}
 	}],
-	[FUNCS.print, () => globalThis.print()],
-]);
+	[FUNCS.navigate.popup, event => {
+		if (event.isTrusted) {
+			event.preventDefault();
+			window.open(event.currentTarget.dataset.url);
+		}
+	}],
+	[FUNCS.ui.hide, ({ currentTarget }) => {
+		$(currentTarget.dataset.selector).forEach(el => el.hidden = true);
+	}],
+	[FUNCS.ui.unhide, ({ currentTarget }) => {
+		$(currentTarget.dataset.selector).forEach(el => el.hidden = false);
+	}],
+	[FUNCS.ui.disable, ({ currentTarget }) => {
+		$(currentTarget.dataset.selector).forEach(el => el.disabled = true);
+	}],
+	[FUNCS.ui.enable, ({ currentTarget }) => {
+		$(currentTarget.dataset.selector).forEach(el => el.disabled = false);
+	}],
+	[FUNCS.ui.remove, ({ currentTarget }) => {
+		$(currentTarget.dataset.selector).forEach(el => el.remove());
+	}],
+	[FUNCS.ui.scrollTo, ({ currentTarget }) => {
+		const target = document.querySelector(currentTarget.dataset.selector);
 
+		if (target instanceof Element) {
+			target.scrollIntoView({
+				behavor: matchMedia('(prefers-reduced-motion: reduce)').matches
+					? 'instant'
+					: 'smooth',
+			});
+		}
+	}],
+	[FUNCS.ui.showModal, ({ currentTarget }) => {
+		const target = document.querySelector(currentTarget.dataset.selector);
+
+		if (target instanceof HTMLDialogElement) {
+			target.showModal();
+		}
+	}],
+	[FUNCS.ui.closeModal, ({ currentTarget }) => {
+		const target = document.querySelector(currentTarget.dataset.selector);
+
+		if (target instanceof HTMLDialogElement) {
+			target.close();
+		}
+	}],
+	[FUNCS.ui.showPopover, ({ currentTarget }) => {
+		const target = document.querySelector(currentTarget.dataset.selector);
+
+		if (target instanceof HTMLElement) {
+			target.showPopover();
+		}
+	}],
+	[FUNCS.ui.hidePopover, ({ currentTarget }) => {
+		const target = document.querySelector(currentTarget.dataset.selector);
+
+		if (target instanceof HTMLElement) {
+			target.hidePopover();
+		}
+	}],
+	[FUNCS.ui.togglePopover, ({ currentTarget }) => {
+		const target = document.querySelector(currentTarget.dataset.selector);
+
+		if (target instanceof HTMLElement) {
+			target.togglePopover();
+		}
+	}],
+	[FUNCS.ui.print, () => globalThis.print()],
+]);
 
 export const listCallbacks = () => Array.from(handlers.keys());
 

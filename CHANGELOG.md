@@ -6,11 +6,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.4] - 2024-03-09
+
+### Added
+- Handle wider variety of objects (such as `HTMLTemplateElement` and `NodeList`, and even functions) in `stringify()`
+- Allow attributes for the [Popover API](https://developer.mozilla.org/en-US/docs/Web/API/Popover_API)
+- Add more built-in callbacks to the callback registry
+- Add function to get registered component observed attributes by tag name
+
+### Changed
+- Refactor event handling
+- Do not remove other attributes when adding event listeners from callback registry
+- Update Polyfills version (allowing `data-*` attributes)
+
+### Removed
+- Remove `AEGIS_EVENT_HANDLER_CLASS`
+
 ## [v0.1.3] - 2024-03-05
 
 ### Added
 - Components registered via `registerComponent()` are now automatically allowed in sanitizer `allowElements`
-- Handle wider variety of objects (such as `HTMLTemplateElement` and `NodeList`) in `stringify()`
 
 ### Changed
 - Update `README.md` to be more accurate/current

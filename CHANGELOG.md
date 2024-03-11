@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.5] - 2024-03-11
+
+### Added
+- Added `MutationObserver` to add/remove event listeners on DOM modifications
+
+### Changed
+- Do not remove `data-aegis-event-on-*` attributes when adding listeners
+
 ## [v0.1.4] - 2024-03-09
 
 ### Added

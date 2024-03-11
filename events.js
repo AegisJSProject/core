@@ -1,9 +1,13 @@
 import { hasCallback, getCallback } from './callbackRegistry.js';
 
-const EVENT_PREFIX =  'data-aegis-event-on-';
+const EVENT_PREFIX = 'data-aegis-event-on-';
 const EVENT_PREFIX_LENGTH = EVENT_PREFIX.length;
 const DATA_PREFIX = 'aegisEventOn';
 const DATA_PREFIX_LENGTH = DATA_PREFIX.length;
+
+const once = 'data-aegis-event-once',
+	passive = 'data-aegis-event-passive',
+	capture = 'data-aegis-event-capture';
 
 const eventAttrs = [
 	EVENT_PREFIX + 'abort',
@@ -103,6 +107,45 @@ const eventAttrs = [
 	EVENT_PREFIX + 'error',
 ];
 
+const observer = new MutationObserver(records => {
+	records.forEach(record  => {
+		switch(record.type) {
+			case 'childList':
+				[...record.addedNodes]
+					.filter(node => node.nodeType === Node.ELEMENT_NODE)
+					.forEach(node => attachListeners(node));
+				break;
+
+			case 'attributes':
+				if (typeof record.oldValue === 'string' && hasCallback(record.oldValue)) {
+					record.target.removeEventListener(
+						record.attributeName.substring(EVENT_PREFIX_LENGTH),
+						getCallback(record.oldValue), {
+							once: record.target.hasAttribute(once),
+							capture: record.target.hasAttribute(capture),
+							passive: record.target.hasAttribute(passive),
+						}
+					);
+				}
+
+				if (
+					record.target.hasAttribute(record.attributeName)
+					&& hasCallback(record.target.getAttribute(record.attributeName))
+				) {
+					record.target.addEventListener(
+						record.attributeName.substring(EVENT_PREFIX_LENGTH),
+						getCallback(record.target.getAttribute(record.attributeName)), {
+							once: record.target.hasAttribute(once),
+							capture: record.target.hasAttribute(capture),
+							passive: record.target.hasAttribute(passive),
+						}
+					);
+				}
+				break;
+		}
+	});
+});
+
 const selector = eventAttrs.map(attr => `[${CSS.escape(attr)}]`).join(', ');
 
 const DATA_EVENTS = Object.fromEntries([...eventAttrs].map(attr => [
@@ -110,17 +153,16 @@ const DATA_EVENTS = Object.fromEntries([...eventAttrs].map(attr => [
 	attr
 ]));
 
-export const EVENTS = {
-	...DATA_EVENTS,
-	once: 'data-aegis-event-once',
-	passive: 'data-aegis-event-passive',
-	capture: 'data-aegis-event-capture',
-};
+export const EVENTS = { ...DATA_EVENTS, once, passive, capture };
 
 const isEventDataAttr = ([name]) => name.substring(0, DATA_PREFIX_LENGTH) === DATA_PREFIX;
 
 export function attachListeners(target, { signal } = {}) {
-	target.querySelectorAll(selector).forEach(el => {
+	const nodes = target instanceof Element && target.matches(selector)
+		? [target, ...target.querySelectorAll(selector)]
+		: target.querySelectorAll(selector);
+
+	nodes.forEach(el => {
 		const dataset = el.dataset;
 
 		for (const [attr, val] of Object.entries(dataset).filter(isEventDataAttr)) {
@@ -134,8 +176,6 @@ export function attachListeners(target, { signal } = {}) {
 						once: dataset.hasOwnProperty('aegisEventOnce'),
 						signal,
 					});
-
-					el.removeAttribute('data-' + attr.replaceAll(/[A-Z]/g, c => '-' + c).toLowerCase());
 				}
 			} catch(err) {
 				console.error(err);
@@ -145,3 +185,16 @@ export function attachListeners(target, { signal } = {}) {
 
 	return target;
 }
+
+export const observeEvents = (root = document.body) => {
+	attachListeners(root);
+	observer.observe(root, {
+		subtree: true,
+		childList:true,
+		attributes: true,
+		attributeOldValue: true,
+		attributeFilter: eventAttrs,
+	});
+};
+
+export const disconnectEventsObserver = () => observer.disconnect();

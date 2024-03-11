@@ -1,6 +1,6 @@
 import {
-	html, css, replaceStyles, getUniqueSelector, createPolicy, appendTo,
-	EVENTS, FUNCS, attr,
+	html, css, replaceStyles, getUniqueSelector, createPolicy,
+	EVENTS, FUNCS, attr, observeEvents,
 } from '@aegisjsproject/core';
 import { reset } from '@aegisjsproject/styles/reset.js';
 import { baseTheme, lightTheme, darkTheme } from '@aegisjsproject/styles/theme.js';
@@ -15,6 +15,8 @@ createPolicy('default', {
 	},
 	createScript: () => trustedTypes.emptyScript,
 });
+
+observeEvents();
 
 const scope = getUniqueSelector();
 
@@ -39,7 +41,7 @@ h1.classList.add(scope);
 h1.textContent = 'Hello, World!';
 frag.append(h1);
 
-appendTo(document.body, html`
+document.body.append(html`
 	<header>
 		${frag}
 	</header>

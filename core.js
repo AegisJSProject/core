@@ -4,7 +4,7 @@
 
 export { sanitizerConfig } from './sanitizerConfig.js';
 
-export { attachListeners, EVENTS } from './events.js';
+export { attachListeners, observeEvents, disconnectEventsObserver, EVENTS } from './events.js';
 
 export {
 	hasCallback, getCallback, listCallbacks, callCallback, createCallback,

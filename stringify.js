@@ -1,19 +1,6 @@
 import { styleSheetToLink } from './parsers/css.js';
 import { createCallback } from  './callbackRegistry.js';
-
-export const escapeAttrVal = str => str.toString()
-	.replaceAll('"', '&quot;')
-	.replaceAll(/&(?![a-zA-Z\d]{2,5};|#\d{1,3};)/g, '&amp;');
-
-function createAttribute(name, value = '', namespace) {
-	const attr = typeof namespace === 'string'
-		? document.createAttributeNS(namespace, name)
-		: document.createAttribute(name);
-
-	attr.value = value;
-
-	return attr;
-}
+import { stringifyAttr, createAttribute } from './dom.js';
 
 const toData = ([name, val]) => ['data-' + name.replaceAll(/[A-Z]/g, c => `-${c.toLowerCase()}`), val];
 
@@ -53,7 +40,7 @@ export const attr = attrs => Object.entries(attrs).map(([attr, val]) => {
 			return createAttribute(attr, val.toString());
 	}
 }).filter(attr => attr instanceof Attr)
-	.map(attr => `${attr.name}="${escapeAttrVal(attr.value)}"`)
+	.map(stringifyAttr)
 	.join(' ');
 
 export function data(dataObj) {
@@ -137,9 +124,9 @@ export const stringify = thing => {
 			} else if (thing instanceof MediaList) {
 				return thing.mediaText;
 			} else if (thing instanceof Attr) {
-				return `${thing.name}="${escapeAttrVal(thing.value)}"`;
+				return stringifyAttr(thing);
 			} else if (thing instanceof NamedNodeMap) {
-				return [...thing].map(node => `${node.name}="${escapeAttrVal(node.value)}"`).join(' ');
+				return [...thing].map(stringifyAttr).join(' ');
 			} else if ('TrustedType' in globalThis && thing instanceof globalThis.TrustedType) {
 				return thing;
 			} else if ('Iterator' in globalThis && thing instanceof globalThis.Iterator) {

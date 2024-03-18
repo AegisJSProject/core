@@ -1,5 +1,30 @@
 import { attachListeners } from './events.js';
 
+const ESCAPED_PATTERN = /&(?![a-zA-Z\d]{2,5};|#\d{1,3};)/g;
+
+export const escapeAttrVal = str => str.toString()
+	// Do not double-escape
+	.replaceAll(ESCAPED_PATTERN, '&amp;')
+	.replaceAll('"', '&quot;');
+
+export function createAttribute(name, value = '', namespace) {
+	const attr = typeof namespace === 'string'
+		? document.createAttributeNS(namespace, name)
+		: document.createAttribute(name);
+
+	attr.value = value;
+
+	return attr;
+}
+
+export const stringifyAttr = attr => `${attr.name}="${escapeAttrVal(attr.value)}"`;
+
+export const escape = str => str.toString()
+	.replaceAll(ESCAPED_PATTERN, '&amp;')
+	.replaceAll('<', '&lt;')
+	.replaceAll('>', '&gt;')
+	.replaceAll('"', '&quot;');
+
 export const getUniqueSelector = (prefix = '_aegis-scope') => `${prefix}-${crypto.randomUUID()}`;
 
 export function replaceStyles(target, ...sheets) {

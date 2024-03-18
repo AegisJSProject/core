@@ -148,14 +148,15 @@ const observer = new MutationObserver(records => {
 
 const selector = eventAttrs.map(attr => `[${CSS.escape(attr)}]`).join(', ');
 
-const DATA_EVENTS = Object.fromEntries([...eventAttrs].map(attr => [
-	`on${attr[EVENT_PREFIX_LENGTH].toUpperCase()}${attr.substring(EVENT_PREFIX_LENGTH + 1)}`,
-	attr
-]));
+const attrToProp = attr => `on${attr[EVENT_PREFIX_LENGTH].toUpperCase()}${attr.substring(EVENT_PREFIX_LENGTH + 1)}`;
+
+const attrEntriesMap = attr => [attrToProp(attr), attr];
+
+const DATA_EVENTS = Object.fromEntries([...eventAttrs].map(attrEntriesMap));
 
 export const EVENTS = { ...DATA_EVENTS, once, passive, capture };
 
-const isEventDataAttr = ([name]) => name.substring(0, DATA_PREFIX_LENGTH) === DATA_PREFIX;
+const isEventDataAttr = ([name]) => name.startsWith(DATA_PREFIX);
 
 export function attachListeners(target, { signal } = {}) {
 	const nodes = target instanceof Element && target.matches(selector)
@@ -186,7 +187,7 @@ export function attachListeners(target, { signal } = {}) {
 	return target;
 }
 
-export const observeEvents = (root = document.body) => {
+export const observeEvents = (root = document) => {
 	attachListeners(root);
 	observer.observe(root, {
 		subtree: true,

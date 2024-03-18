@@ -25,6 +25,9 @@ export {
 
 export { DATE_FORMAT, formatDate, stringify, data, attr } from './stringify.js';
 
-export { getUniqueSelector, replaceStyles, addStyles, appendTo, prependTo, replace } from './dom.js';
+export {
+	getUniqueSelector, replaceStyles, addStyles, appendTo, prependTo, replace,
+	escape, escapeAttrVal,
+} from './dom.js';
 
 export { registerComponent, getRegisteredComponentTags, getRegisteredComponents } from './componentRegistry.js';

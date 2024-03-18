@@ -2,9 +2,9 @@ let isRegistrationOpen = true;
 
 export const closeRegistration = () => isRegistrationOpen = false;
 
-function $(selector, base = document) {
-	return base.querySelectorAll(selector);
-}
+const $$ = (selector, base = document) => base.querySelectorAll(selector);
+
+const $ = (selector, base = document) => base.querySelector(selector);
 
 export const FUNCS = {
 	debug: {
@@ -33,6 +33,7 @@ export const FUNCS = {
 		enable: 'aegis:ui:enable',
 		disable: 'aegis:ui:disable',
 		scrollTo: 'aegis:ui:scrollTo',
+		prevent: 'aegis:ui:prevent',
 	},
 };
 
@@ -57,70 +58,71 @@ const handlers = new Map([
 		}
 	}],
 	[FUNCS.ui.hide, ({ currentTarget }) => {
-		$(currentTarget.dataset.selector).forEach(el => el.hidden = true);
+		$$(currentTarget.dataset.hideSelector).forEach(el => el.hidden = true);
 	}],
 	[FUNCS.ui.unhide, ({ currentTarget }) => {
-		$(currentTarget.dataset.selector).forEach(el => el.hidden = false);
+		$$(currentTarget.dataset.unhideSelector).forEach(el => el.hidden = false);
 	}],
 	[FUNCS.ui.disable, ({ currentTarget }) => {
-		$(currentTarget.dataset.selector).forEach(el => el.disabled = true);
+		$$(currentTarget.dataset.disableSelector).forEach(el => el.disabled = true);
 	}],
 	[FUNCS.ui.enable, ({ currentTarget }) => {
-		$(currentTarget.dataset.selector).forEach(el => el.disabled = false);
+		$$(currentTarget.dataset.enableSelector).forEach(el => el.disabled = false);
 	}],
 	[FUNCS.ui.remove, ({ currentTarget }) => {
-		$(currentTarget.dataset.selector).forEach(el => el.remove());
+		$$(currentTarget.dataset.removeSelector).forEach(el => el.remove());
 	}],
 	[FUNCS.ui.scrollTo, ({ currentTarget }) => {
-		const target = document.querySelector(currentTarget.dataset.selector);
+		const target = $(currentTarget.dataset.scrollToSelector);
 
 		if (target instanceof Element) {
 			target.scrollIntoView({
-				behavor: matchMedia('(prefers-reduced-motion: reduce)').matches
+				behavior: matchMedia('(prefers-reduced-motion: reduce)').matches
 					? 'instant'
 					: 'smooth',
 			});
 		}
 	}],
 	[FUNCS.ui.showModal, ({ currentTarget }) => {
-		const target = document.querySelector(currentTarget.dataset.selector);
+		const target = $(currentTarget.dataset.showModalSelector);
 
 		if (target instanceof HTMLDialogElement) {
 			target.showModal();
 		}
 	}],
 	[FUNCS.ui.closeModal, ({ currentTarget }) => {
-		const target = document.querySelector(currentTarget.dataset.selector);
+		const target = $(currentTarget.dataset.closeModalSelector);
 
 		if (target instanceof HTMLDialogElement) {
 			target.close();
 		}
 	}],
 	[FUNCS.ui.showPopover, ({ currentTarget }) => {
-		const target = document.querySelector(currentTarget.dataset.selector);
+		const target = $(currentTarget.dataset.showPopoverSelector);
 
 		if (target instanceof HTMLElement) {
 			target.showPopover();
 		}
 	}],
 	[FUNCS.ui.hidePopover, ({ currentTarget }) => {
-		const target = document.querySelector(currentTarget.dataset.selector);
+		const target = $(currentTarget.dataset.hidePopoverSelector);
 
 		if (target instanceof HTMLElement) {
 			target.hidePopover();
 		}
 	}],
 	[FUNCS.ui.togglePopover, ({ currentTarget }) => {
-		const target = document.querySelector(currentTarget.dataset.selector);
+		const target = $(currentTarget.dataset.togglePopoverSelector);
 
 		if (target instanceof HTMLElement) {
 			target.togglePopover();
 		}
 	}],
 	[FUNCS.ui.print, () => globalThis.print()],
+	[FUNCS.ui.prevent, event => event.preventDefault()],
 ]);
 
-export const listCallbacks = () => Array.from(handlers.keys());
+export const listCallbacks = () => Object.freeze(Array.from(handlers.keys()));
 
 export const hasCallback = name => handlers.has(name);
 
@@ -135,12 +137,7 @@ export function callCallback(name, ...args) {
 }
 
 export function createCallback(callback) {
-	const name = [
-		Date.now().toString(16),
-		...Array.from(crypto.getRandomValues(new Uint8Array(3))).map(i => i.toString(16))
-	].join(':');
-
-	return registerCallback(name, callback);
+	return registerCallback('aegis:callback:' + crypto.randomUUID(), callback);
 }
 
 export function registerCallback(name, callback) {
@@ -155,6 +152,8 @@ export function registerCallback(name, callback) {
 			handlers.set(name, callback);
 			return name;
 		}
+	} else {
+		return name;
 	}
 }
 

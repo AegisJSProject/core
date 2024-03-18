@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.6] - 2024-03-18
+
+### Added
+- Add `FUNCS.ui.prevent` (`event => event.preventDefault()`)
+
+### Changed
+- Registered callbacks with selectors now have prefixes for their `data-*-selector`s
+- Improve logic of sanitizing/escaping attributes
+- Move attribute related functions to `dom.js`
+
+### Fixed
+- Fix typo in `FUNCS.ui.scrollTo`
+
 ## [v0.1.5] - 2024-03-11
 
 ### Added

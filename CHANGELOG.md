@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.7] - 2024-03-19
+
+### Changed
+- Update allowed tags and attributes for sanitizer
+
 ## [v0.1.6] - 2024-03-18
 
 ### Added

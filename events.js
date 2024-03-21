@@ -199,3 +199,11 @@ export const observeEvents = (root = document) => {
 };
 
 export const disconnectEventsObserver = () => observer.disconnect();
+
+export function setGlobalErrorHandler(callback, { capture, once, passive, signal } = {}) {
+	if (callback instanceof Function) {
+		window.addEventListener('error', callback, { capture, once, passive, signal });
+	} else {
+		throw new TypeError('Callback is not a function.');
+	}
+}

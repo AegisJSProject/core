@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Add observer for attributes via `attributeObserver.js` module
+- Add `setGlobalErrorHandler()`
+
 ## [v0.1.7] - 2024-03-19
 
 ### Changed

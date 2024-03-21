@@ -4,7 +4,10 @@
 
 export { sanitizerConfig } from './sanitizerConfig.js';
 
-export { attachListeners, observeEvents, disconnectEventsObserver, EVENTS } from './events.js';
+export {
+	attachListeners, observeEvents, disconnectEventsObserver, EVENTS,
+	setGlobalErrorHandler,
+} from './events.js';
 
 export {
 	hasCallback, getCallback, listCallbacks, callCallback, createCallback,
@@ -30,4 +33,8 @@ export {
 	escape, escapeAttrVal,
 } from './dom.js';
 
-export { registerComponent, getRegisteredComponentTags, getRegisteredComponents } from './componentRegistry.js';
+export {
+	registerComponent, getRegisteredComponentTags, getRegisteredComponents,
+} from './componentRegistry.js';
+
+export { observeAttribute,  observeAttributes, unobserveAttribute } from './attributeObserver.js';

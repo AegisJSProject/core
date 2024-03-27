@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.0] - 2024-03-26
+
 ### Added
 - Add & use `@aegisjsproject/sanitizer`
 - Add observer for attributes via `attributeObserver.js` module

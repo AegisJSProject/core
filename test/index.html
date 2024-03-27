@@ -6,13 +6,13 @@
 		<meta name="color-scheme" content="light dark" />
 		<meta http-equiv="Content-Security-Policy"
 			content="default-src 'none';
-			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@aegisjsproject/ 'sha384-wWmXu1qSFwjrObR4l4KERFlhjCraqRivvXh682CyCGHtnQ0jLdHJn6d4hpSYdKME' 'nonce-rdgtjdfgjkdfdg';
+			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@aegisjsproject/ 'sha384-DZLuEkQJQOtbTg1EUx0ZmRed2APJ7oCmYNJhQih/N24oCIoEtE4Xh9ZbBKXNFnt9';
 			style-src 'self' blob: data:;
 			connect-src https://icanhazdadjoke.com https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@kernvalley/;
-			trusted-types empty#html empty#script sanitizer-raw#html default;
+			trusted-types empty#html empty#script aegis-sanitizer#html sanitizer-raw#html default;
 			require-trusted-types-for 'script';" />
 		<title>Aegis Test</title>
-		<script type="importmap" integrity="sha384-wWmXu1qSFwjrObR4l4KERFlhjCraqRivvXh682CyCGHtnQ0jLdHJn6d4hpSYdKME" nonce="rdgtjdfgjkdfdg">
+		<script type="importmap" integrity="sha384-DZLuEkQJQOtbTg1EUx0ZmRed2APJ7oCmYNJhQih/N24oCIoEtE4Xh9ZbBKXNFnt9">
 			{
 				"imports": {
 					"@aegisjsproject/core": "../core.js",
@@ -28,8 +28,8 @@
 				}
 			}
 		</script>
-		<!-- <script type="application/javascript" defer="" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-da+idpfYh2JjIk81mlgAuhkV0bSAuVW1TA9XLcjht0WOsiSQgwi+uzPM4a2t6A9i" src="https://unpkg.com/@shgysk8zer0/polyfills@0.3.2/all.min.js" fetchpriority="auto"></script> -->
-		<!-- <script type="application/javascript" defer="" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-55L/wO9o0uIVTeubRIDQB4bewfNqyxrj4OXuxlW24NMEk+ioZwMHVw/tFV78mM+k" src="https://unpkg.com/@shgysk8zer0/kazoo@0.3.1/harden.js" fetchpriority="auto"></script> -->
+		<script type="application/javascript" defer="" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-njQyQKX8tCG1g50LuFcDCd6PalBV0M1tqJAVUGf+m9nr1rDcQYXF5QJmLbk/lQ7I" src="https://unpkg.com/@shgysk8zer0/polyfills@0.3.5/all.min.js" fetchpriority="auto"></script>
+		<script type="application/javascript" defer="" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-55L/wO9o0uIVTeubRIDQB4bewfNqyxrj4OXuxlW24NMEk+ioZwMHVw/tFV78mM+k" src="https://unpkg.com/@shgysk8zer0/kazoo@0.3.1/harden.js" fetchpriority="auto"></script>
 		<script type="module" referrerpolicy="no-referrer" src="./index.js" data-aegis-event-on-load="aegis:debug:log" data-aegis-event-once=""></script>
 	</head>
 	<body>

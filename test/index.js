@@ -1,4 +1,3 @@
-import '@aegisjsproject/core/polyfill.js';
 import {
 	html, css, replaceStyles, getUniqueSelector, createPolicy,
 	EVENTS, FUNCS, attr, data, observeEvents,

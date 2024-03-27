@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.1] - 2024-03-27
+
+### Fixed
+- Update `@aegisjsproject/sanitizer`to fix `setHTML` appending
+
 ## [v0.2.0] - 2024-03-26
 
 ### Added

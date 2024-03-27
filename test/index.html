@@ -6,17 +6,19 @@
 		<meta name="color-scheme" content="light dark" />
 		<meta http-equiv="Content-Security-Policy"
 			content="default-src 'none';
-			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@aegisjsproject/ 'sha384-wWmXu1qSFwjrObR4l4KERFlhjCraqRivvXh682CyCGHtnQ0jLdHJn6d4hpSYdKME';
+			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@aegisjsproject/ 'sha384-wWmXu1qSFwjrObR4l4KERFlhjCraqRivvXh682CyCGHtnQ0jLdHJn6d4hpSYdKME' 'nonce-rdgtjdfgjkdfdg';
 			style-src 'self' blob: data:;
 			connect-src https://icanhazdadjoke.com https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@kernvalley/;
 			trusted-types empty#html empty#script sanitizer-raw#html default;
 			require-trusted-types-for 'script';" />
 		<title>Aegis Test</title>
-		<script type="importmap" integrity="sha384-wWmXu1qSFwjrObR4l4KERFlhjCraqRivvXh682CyCGHtnQ0jLdHJn6d4hpSYdKME">
+		<script type="importmap" integrity="sha384-wWmXu1qSFwjrObR4l4KERFlhjCraqRivvXh682CyCGHtnQ0jLdHJn6d4hpSYdKME" nonce="rdgtjdfgjkdfdg">
 			{
 				"imports": {
 					"@aegisjsproject/core": "../core.js",
 					"@aegisjsproject/core/": "../",
+					"@aegisjsproject/sanitizer": "../node_modules/@aegisjsproject/sanitizer/sanitizer.js",
+					"@aegisjsproject/sanitizer/": "../node_modules/@aegisjsproject/sanitizer/",
 					"@aegisjsproject/styles": "../node_modules/@aegisjsproject/styles/styles.js",
 					"@aegisjsproject/styles/": "../node_modules/@aegisjsproject/styles/",
 					"@aegisjsproject/component": "../node_modules/@aegisjsproject/component/component.js",
@@ -26,8 +28,8 @@
 				}
 			}
 		</script>
-		<script type="application/javascript" defer="" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-da+idpfYh2JjIk81mlgAuhkV0bSAuVW1TA9XLcjht0WOsiSQgwi+uzPM4a2t6A9i" src="https://unpkg.com/@shgysk8zer0/polyfills@0.3.2/all.min.js" fetchpriority="auto"></script>
-		<script type="application/javascript" defer="" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-55L/wO9o0uIVTeubRIDQB4bewfNqyxrj4OXuxlW24NMEk+ioZwMHVw/tFV78mM+k" src="https://unpkg.com/@shgysk8zer0/kazoo@0.3.1/harden.js" fetchpriority="auto"></script>
+		<!-- <script type="application/javascript" defer="" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-da+idpfYh2JjIk81mlgAuhkV0bSAuVW1TA9XLcjht0WOsiSQgwi+uzPM4a2t6A9i" src="https://unpkg.com/@shgysk8zer0/polyfills@0.3.2/all.min.js" fetchpriority="auto"></script> -->
+		<!-- <script type="application/javascript" defer="" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-55L/wO9o0uIVTeubRIDQB4bewfNqyxrj4OXuxlW24NMEk+ioZwMHVw/tFV78mM+k" src="https://unpkg.com/@shgysk8zer0/kazoo@0.3.1/harden.js" fetchpriority="auto"></script> -->
 		<script type="module" referrerpolicy="no-referrer" src="./index.js" data-aegis-event-on-load="aegis:debug:log" data-aegis-event-once=""></script>
 	</head>
 	<body>

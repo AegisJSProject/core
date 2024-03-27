@@ -1,3 +1,4 @@
+import '@aegisjsproject/core/polyfill.js';
 import {
 	html, css, replaceStyles, getUniqueSelector, createPolicy,
 	EVENTS, FUNCS, attr, data, observeEvents,
@@ -6,9 +7,10 @@ import {
 import { reset } from '@aegisjsproject/styles/reset.js';
 import { baseTheme, lightTheme, darkTheme } from '@aegisjsproject/styles/theme.js';
 import { btn } from '@aegisjsproject/styles/button.js';
+import * as bootstrap from '@aegisjsproject/styles/palette/bootstrap.js';
 import './dad-joke.js';
 
-createPolicy('default', {
+const policy = createPolicy('default', {
 	createHTML: (input) => {
 		const el = document.createElement('div');
 		el.setHTML(input);
@@ -46,8 +48,11 @@ frag.append(h1);
 document.body.append(html`
 	<header>
 		${frag}
+		<svg viewBox="0 0 10 10" height="24" width="24">
+			<rect x="0" y="0" height="10" width="10" rx="1" ry="1" fill="${bootstrap.info}" />
+		</svg>
 	</header>
-	${trustedTypes.defaultPolicy.createHTML('<hr />')}
+	${policy.createHTML('<hr />')}
 	${new DadJoke()}
 	<div class="flex row wrap btn-container">
 		<a href="./#invalid" ${EVENTS.onClick}="${FUNCS.ui.prevent}">Disabled Link</a>

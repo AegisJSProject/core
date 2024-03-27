@@ -47,6 +47,7 @@ const template = html`
 	}
 })}" type="button" id="update-btn" class="btn btn-primary" part="btn">
 		<span>Get new Dad Joke</span>
+		${updateIcon}
 	</button>
 `;
 
@@ -55,10 +56,10 @@ class HTMLDataJokeElement extends AegisComponent {
 		super({ styles, template });
 	}
 
-	async [SYMBOLS.render](type, { shadow, ...data }) {
+	async [SYMBOLS.render](type, { ...data }) {
 		switch(type) {
 			case TRIGGERS.constructed:
-				shadow.getElementById('update-btn').append(updateIcon.cloneNode(true));
+				// shadow.getElementById('update-btn').append(updateIcon.cloneNode(true));
 				await this.update();
 				break;
 

@@ -97,6 +97,6 @@
     "rollup": "^4.9.6"
   },
   "dependencies": {
-    "@aegisjsproject/sanitizer": "^0.0.5"
+    "@aegisjsproject/sanitizer": "^0.0.7"
   }
 }

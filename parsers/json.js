@@ -1,1 +1,1 @@
-export const json = (...args) => JSON.parse(String.raw.apply(null, args));
+export { json } from '@aegisjsproject/parsers/json.js';

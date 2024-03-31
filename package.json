@@ -1,6 +1,6 @@
 {
   "name": "@aegisjsproject/core",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A fast, secure, modern, light-weight, and simple JS library for creating web components and more!",
   "keywords": [
     "aegis",
@@ -92,11 +92,14 @@
   "devDependencies": {
     "@aegisjsproject/component": "file:../component",
     "@aegisjsproject/styles": "file:../styles",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
     "eslint": "^8.56.0",
     "http-server": "^14.1.1",
     "rollup": "^4.9.6"
   },
   "dependencies": {
+    "@aegisjsproject/parsers": "^0.0.4",
     "@aegisjsproject/sanitizer": "^0.0.7"
   }
 }

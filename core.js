@@ -2,7 +2,7 @@
  * @copyright 2023-2024 Chris Zuber <admin@kernvalley.us>
  */
 
-export { sanitizerConfig } from './sanitizerConfig.js';
+// export { sanitizerConfig } from './sanitizerConfig.js';
 
 export {
 	attachListeners, observeEvents, disconnectEventsObserver, EVENTS,
@@ -16,7 +16,7 @@ export {
 
 export {
 	text, createStyleSheet, createCSSParser, css, lightCSS, darkCSS ,
-	styleSheetToFile, styleSheetToLink, sanitizeString, createHTMLParser, html,
+	styleSheetToFile, styleSheetToLink, createHTMLParser, html,
 	htmlToFile, xml, svg, json, math,
 } from './parsers.js';
 
@@ -38,3 +38,5 @@ export {
 } from './componentRegistry.js';
 
 export { observeAttribute,  observeAttributes, unobserveAttribute } from './attributeObserver.js';
+
+export { createComponent, clone } from './component.js';

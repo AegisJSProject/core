@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.3] - 2024-03-30
+
+### Added
+- Add minified bundle
+- Add `createComponent()` for creating elements with Shadow DOM (not full Web Components/Custom Elements)
+
+### Changed
+- Switch to using `@aegisjsproject/parsers` as base for own parsers
+
 ## [v0.2.2] - 2024-03-27
 
 #### Fixed

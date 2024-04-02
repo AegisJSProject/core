@@ -6,17 +6,19 @@
 		<meta name="color-scheme" content="light dark" />
 		<meta http-equiv="Content-Security-Policy"
 			content="default-src 'none';
-			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@aegisjsproject/ 'sha384-Pxcqjgfco6tkooos/9h/xRfJZr2WddVfHAfprsOEXWMPWWjps98EBtlQoDXHEeS6';
+			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@aegisjsproject/ 'sha384-Pxcqjgfco6tkooos/9h/xRfJZr2WddVfHAfprsOEXWMPWWjps98EBtlQoDXHEeS6' 'nonce-fdjgkkdfkggkjdfkjg';
 			style-src 'self' blob:;
 			connect-src https://icanhazdadjoke.com https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@kernvalley/;
-			trusted-types empty#html empty#script aegis-sanitizer#html sanitizer-raw#html default;
+			trusted-types aegis-sanitizer#html default;
 			require-trusted-types-for 'script';" />
 		<title>Aegis Test</title>
-		<script type="importmap" integrity="sha384-Pxcqjgfco6tkooos/9h/xRfJZr2WddVfHAfprsOEXWMPWWjps98EBtlQoDXHEeS6">
+		<script type="importmap" integrity="sha384-Pxcqjgfco6tkooos/9h/xRfJZr2WddVfHAfprsOEXWMPWWjps98EBtlQoDXHEeS6" nonce="fdjgkkdfkggkjdfkjg">
 			{
 				"imports": {
 					"@aegisjsproject/core": "../core.js",
 					"@aegisjsproject/core/": "../",
+					"@aegisjsproject/trusted-types": "../node_modules/@aegisjsproject/trusted-types/bundle.min.js",
+					"@aegisjsproject/trusted-types/": "../node_modules/@aegisjsproject/trusted-types/",
 					"@aegisjsproject/sanitizer": "../node_modules/@aegisjsproject/sanitizer/sanitizer.js",
 					"@aegisjsproject/sanitizer/": "../node_modules/@aegisjsproject/sanitizer/",
 					"@aegisjsproject/parsers/": "../node_modules/@aegisjsproject/parsers/",
@@ -29,8 +31,8 @@
 				}
 			}
 		</script>
-		<script type="application/javascript" defer="" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-njQyQKX8tCG1g50LuFcDCd6PalBV0M1tqJAVUGf+m9nr1rDcQYXF5QJmLbk/lQ7I" src="https://unpkg.com/@shgysk8zer0/polyfills@0.3.5/all.min.js" fetchpriority="auto"></script>
-		<script type="application/javascript" defer="" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-55L/wO9o0uIVTeubRIDQB4bewfNqyxrj4OXuxlW24NMEk+ioZwMHVw/tFV78mM+k" src="https://unpkg.com/@shgysk8zer0/kazoo@0.3.1/harden.js" fetchpriority="auto"></script>
+		<script type="module" src="../node_modules/@aegisjsproject/trusted-types/bundle.js" referrerpolicy="no-referrer" defer=""></script>
+		<script type="module" src="../node_modules/@aegisjsproject/sanitizer/polyfill.js" referrerpolicy="no-referrer" defer=""></script>
 		<script type="module" referrerpolicy="no-referrer" src="./index.js" data-aegis-event-on-load="aegis:debug:log" data-aegis-event-once=""></script>
 	</head>
 	<body>

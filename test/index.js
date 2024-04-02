@@ -10,9 +10,13 @@ import * as bootstrap from '@aegisjsproject/styles/palette/bootstrap.js';
 import './dad-joke.js';
 
 const policy = createPolicy('default', {
-	createHTML: (input) => {
+	createHTML(input, {
+		elements,
+		attributes,
+		comments,
+	} = {}) {
 		const el = document.createElement('div');
-		el.setHTML(input);
+		el.setHTML(input, { sanitizer: { elements, attributes, comments }});
 		return el.innerHTML;
 	},
 	createScript: () => trustedTypes.emptyScript,
@@ -45,8 +49,9 @@ h1.textContent = 'Hello, World!';
 frag.append(h1);
 
 document.body.append(html`
-	<header>
+	<header onclick="alert(locaton)" foo="bar">
 		${frag}
+		<hello-world>H1</hello-world><h1 foo="abr">Click Me!</h1>
 		<svg viewBox="0 0 10 10" height="24" width="24">
 			<rect x="0" y="0" height="10" width="10" rx="1" ry="1" fill="${bootstrap.info}" />
 		</svg>

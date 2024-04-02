@@ -2,8 +2,6 @@
  * @copyright 2023-2024 Chris Zuber <admin@kernvalley.us>
  */
 
-// export { sanitizerConfig } from './sanitizerConfig.js';
-
 export {
 	attachListeners, observeEvents, disconnectEventsObserver, EVENTS,
 	setGlobalErrorHandler,

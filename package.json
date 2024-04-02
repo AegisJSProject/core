@@ -99,8 +99,8 @@
     "rollup": "^4.9.6"
   },
   "dependencies": {
-    "@aegisjsproject/parsers": "^0.0.4",
-    "@aegisjsproject/sanitizer": "^0.0.8",
+    "@aegisjsproject/parsers": "^0.0.6",
+    "@aegisjsproject/sanitizer": "^0.0.9",
     "@aegisjsproject/trusted-types": "^1.0.1"
   }
 }

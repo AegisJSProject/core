@@ -21,7 +21,7 @@ export {
 export {
 	setProp, setAttr, isTrustPolicy, hasDefaultPolicy, getAttributeType,
 	getPropertyType, isHTML, isScript, isScriptURL, isTrustedType, createHTML,
-	createScript, createScriptURL, createPolicy, getDefaultPolicy,
+	createScript, createScriptURL, createPolicy, createSanitizerPolicy, getDefaultPolicy,
 } from './trust.js';
 
 export { DATE_FORMAT, formatDate, stringify, data, attr } from './stringify.js';

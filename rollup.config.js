@@ -29,5 +29,13 @@ export default [{
 		format: 'module',
 		plugins: [terser()],
 	}
+}, {
+	input: 'polyfill.js',
+	plugins: [nodeResolve()],
+	output: {
+		file: 'polyfill.min.js',
+		format: 'iife',
+		plugins: [terser()],
+	}
 }];
 

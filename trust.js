@@ -174,6 +174,16 @@ export function createPolicy(name, {
 	}
 }
 
+export function createSanitizerPolicy(name = 'aegis#html') {
+	return createPolicy(name, {
+		createHTML(input, sanitizer) {
+			const el = document.createElement('div');
+			el.setHTML(input, { sanitizer });
+			return el.innerHTML;
+		}
+	});
+}
+
 export function getDefaultPolicy() {
 	return 'trustedTypes' in globalThis ? trustedTypes.defaultPolicy : null;
 }

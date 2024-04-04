@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.6] - 2024-04-03
+
+### Changed
+- Update Sanitizer Config
+
 ## [v0.2.5] - 2024-04-02
 
 ### Added

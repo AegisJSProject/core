@@ -6,16 +6,16 @@
 		<meta name="color-scheme" content="light dark" />
 		<meta http-equiv="Content-Security-Policy"
 			content="default-src 'none';
-			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@aegisjsproject/ 'sha384-Pxcqjgfco6tkooos/9h/xRfJZr2WddVfHAfprsOEXWMPWWjps98EBtlQoDXHEeS6' 'nonce-fdjgkkdfkggkjdfkjg';
+			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@aegisjsproject/ 'sha384-ahP9Bg0NJIlopirOhSjdGVQQhqQy/xLI0QtfQbbg6Xw8yfn10g5wP3+Kzy6Ct5m1';
 			style-src 'self' blob:;
-			connect-src https://icanhazdadjoke.com https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@kernvalley/;
+			connect-src https://icanhazdadjoke.com/;
 			trusted-types aegis-sanitizer#html default;
 			require-trusted-types-for 'script';" />
 		<title>Aegis Test</title>
-		<script type="importmap" integrity="sha384-Pxcqjgfco6tkooos/9h/xRfJZr2WddVfHAfprsOEXWMPWWjps98EBtlQoDXHEeS6" nonce="fdjgkkdfkggkjdfkjg">
+		<script type="importmap" integrity="sha384-ahP9Bg0NJIlopirOhSjdGVQQhqQy/xLI0QtfQbbg6Xw8yfn10g5wP3+Kzy6Ct5m1">
 			{
 				"imports": {
-					"@aegisjsproject/core": "../bundle.js",
+					"@aegisjsproject/core": "../bundle-with-policy.js",
 					"@aegisjsproject/core/": "../",
 					"@aegisjsproject/trusted-types": "../node_modules/@aegisjsproject/trusted-types/bundle.min.js",
 					"@aegisjsproject/trusted-types/": "../node_modules/@aegisjsproject/trusted-types/",

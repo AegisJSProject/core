@@ -1,6 +1,6 @@
 import {
-	html, css, replaceStyles, getUniqueSelector, createSanitizerPolicy,
-	EVENTS, FUNCS, attr, data, observeEvents,
+	html, css, replaceStyles, getUniqueSelector,
+	EVENTS, FUNCS, attr, data, observeEvents, policy,
 } from '@aegisjsproject/core';
 
 import { reset } from '@aegisjsproject/styles/reset.js';
@@ -8,8 +8,6 @@ import { baseTheme, lightTheme, darkTheme } from '@aegisjsproject/styles/theme.j
 import { btn } from '@aegisjsproject/styles/button.js';
 import * as bootstrap from '@aegisjsproject/styles/palette/bootstrap.js';
 import './dad-joke.js';
-
-const policy = createSanitizerPolicy('default');
 
 // closeRegistration();
 observeEvents();
@@ -37,7 +35,7 @@ h1.classList.add(scope);
 h1.textContent = 'Hello, World!';
 frag.append(h1);
 try {
-	const parsed = html`
+	document.body.append(html`
 		<header onclick="alert(location)" foo="bar">
 			${frag}
 			<hello-world>H1</hello-world><h1 foo="abr">Click Me!</h1>
@@ -81,10 +79,7 @@ try {
 		</div>
 		<div id="help" popover="auto">Should be shown on button scroll</div>
 		<footer id="footer">This is the footer</footer>
-	`;
-
-	console.log(parsed);
-	document.body.append(parsed);
+	`);
 } catch(err) {
 	console.error(err);
 }

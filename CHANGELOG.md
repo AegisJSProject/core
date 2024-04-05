@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.7] - 2024-04-05
+
+### Added
+- Add default Trusted Types Policy using Sanitizer (with optional config)
+- Add various bundle options including default policy
+
 ## [v0.2.6] - 2024-04-03
 
 ### Changed

@@ -37,5 +37,21 @@ export default [{
 		format: 'iife',
 		plugins: [terser()],
 	}
+}, {
+	input: 'polyfill-with-policy.js',
+	plugins: [nodeResolve()],
+	output: {
+		file: 'polyfill-with-policy.min.js',
+		format: 'iife',
+		plugins: [terser()],
+	}
+}, {
+	input: 'bundle-with-policy.js',
+	plugins: [nodeResolve()],
+	output: {
+		file: 'bundle-with-policy.min.js',
+		format: 'module',
+		plugins: [terser()],
+	}
 }];
 

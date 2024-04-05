@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.8] - 2024-04-05
+
+### Changed
+ Improve default policy compatibility (check Sanitizer API support)
+
 ## [v0.2.7] - 2024-04-05
 
 ### Added

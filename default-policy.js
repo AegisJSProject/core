@@ -21,6 +21,28 @@ if (! ('trustedTypes' in globalThis && trustedTypes.createPolicy instanceof Func
 				})});
 
 				return el.innerHTML;
+			},
+			createScriptURL(input, allowedSources = []) {
+				if (! Array.isArray(allowedSources)) {
+					throw new TypeError('`allowedSources` must be an array.');
+				} else if (allowedSources.length === 0) {
+					throw new TypeError('No `allowedSources` given to `createScriptURL`.');
+				} else {
+					const src = new URL(input, document.baseURI);
+					const mapped = allowedSources.map(src => src instanceof URL
+						? src
+						: new URL(src, document.baseURI)
+					);
+
+					if (mapped.some(({ origin, pathname }) => (
+						src.origin ===  origin
+						&& src.pathname.startsWith(pathname))
+					)) {
+						return src.href;
+					} else {
+						throw new TypeError(`${src.href} is not an allowed script URL.`);
+					}
+				}
 			}
 		});
 	} catch(err) {

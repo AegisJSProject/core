@@ -100,7 +100,7 @@
   },
   "dependencies": {
     "@aegisjsproject/parsers": "^0.0.7",
-    "@aegisjsproject/sanitizer": "^0.0.10",
+    "@aegisjsproject/sanitizer": "^0.1.0",
     "@aegisjsproject/trusted-types": "^1.0.1"
   }
 }

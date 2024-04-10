@@ -21,9 +21,7 @@ export function htmlToFile(html, filename = 'document.html', {
 	comments = sanitizerConfig.comments,
 	...rest
 } = sanitizerConfig) {
-	const doc = Document.parseHTML(html, {
-		sanitizer: { elements, attributes, comments, ...rest },
-	});
+	const doc = Document.parseHTML(html, { elements, attributes, comments, ...rest });
 
 	return new File(
 		[

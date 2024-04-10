@@ -16,9 +16,7 @@ if (! ('trustedTypes' in globalThis && trustedTypes.createPolicy instanceof Func
 			} = {}) {
 				const el = document.createElement('div');
 
-				el.setHTML(input, { sanitizer: Object.freeze({
-					elements, attributes, comments, dataAttributes, ...rest,
-				})});
+				el.setHTML(input, { elements, attributes, comments, dataAttributes, ...rest });
 
 				return el.innerHTML;
 			},

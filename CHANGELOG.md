@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.11] - 2024-04-09
+
+### Changed
+- Update how `createComponent()` handles string templates
+
+### Fixed
+- Fix typo in setting `exportparts`
+
 ## [v0.2.10] - 2024-04-09
 
 ### Changed

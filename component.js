@@ -20,16 +20,18 @@ export function createComponent({
 	sanitizer: {
 		elements,
 		attributes,
-		comments,
+		comments = false,
+		dataAttributes = true,
+		...sanitizer
 	} = {},
 }) {
 	const el = document.createElement(tag);
 	const shadow = el.attachShadow({ mode, clonable, delegatesFocus, slotAssignment });
 
 	if (typeof template === 'string' && template.length !== 0) {
-		const tmp = document.createElement('div');
-		tmp.setHTML(template, { sanitizer: { elements, attributes, comments }});
-		shadow.append(...tmp.children);
+		const frag = document.createDocumentFragment();
+		frag.setHTML(template, { elements, attributes, comments, dataAttributes, ...sanitizer });
+		shadow.append(frag);
 	} else if (! (template instanceof Node)) {
 		throw new TypeError('Missing or invalid template.');
 	} else if (template instanceof HTMLTemplateElement) {
@@ -53,7 +55,7 @@ export function createComponent({
 	if (typeof exportParts === 'string') {
 		el.setAttribute('exportparts', exportParts);
 	} else if (Array.isArray(exportParts)){
-		el.setAttributes('exportparts', exportParts.join(', '));
+		el.setAttribute('exportparts', exportParts.join(', '));
 	} else if (typeof exportParts === 'object' && exportParts !== null) {
 		el.setAttribute(
 			'exportparts',

@@ -20,6 +20,7 @@ export default [{
 		'@aegisjsproject/parsers/math.js',
 		'@aegisjsproject/parsers/xml.js',
 		'@aegisjsproject/parsers/json.js',
+		'@aegisjsproject/parsers/url.js',
 	]
 }, {
 	input: 'bundle.js',

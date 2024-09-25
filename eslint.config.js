@@ -1,4 +1,3 @@
-import { ignoreFile } from '@shgysk8zer0/eslint-config/ignoreFile.js';
-import browser from '@shgysk8zer0/eslint-config/browser.js';
+import { browser } from '@shgysk8zer0/eslint-config';
 
-export default [ignoreFile, browser()];
+export default browser();

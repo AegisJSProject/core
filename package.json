@@ -91,7 +91,7 @@
   "homepage": "https://github.com/AegisJSProject/core#readme",
   "devDependencies": {
     "@aegisjsproject/component": "^0.1.3",
-    "@aegisjsproject/styles": "^0.1.2",
+    "@aegisjsproject/styles": "^0.2.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@shgysk8zer0/eslint-config": "^1.0.1",

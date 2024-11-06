@@ -75,7 +75,7 @@ const formatNumber = 'Intl' in globalThis && Intl.NumberFormat instanceof Functi
 	? num => new Intl.NumberFormat().format(num)
 	: num => num.toString();
 
-const formatEl = el => el.outerHTML;
+const formatEl = Element.prototype.getHTML instanceof Function ? el => el.getHTML() : el => el.outerHTML;
 
 export const stringify = thing => {
 	switch(typeof thing) {

@@ -1,1 +1,1 @@
-export { url } from '@aegisjsproject/parsers/url.js';
+export { url } from '@aegisjsproject/url/url.js';

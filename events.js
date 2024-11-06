@@ -107,6 +107,43 @@ const eventAttrs = [
 	EVENT_PREFIX + 'error',
 ];
 
+let selector = eventAttrs.map(attr => `[${CSS.escape(attr)}]`).join(', ');
+
+const attrToProp = attr => `on${attr[EVENT_PREFIX_LENGTH].toUpperCase()}${attr.substring(EVENT_PREFIX_LENGTH + 1)}`;
+
+const attrEntriesMap = attr => [attrToProp(attr), attr];
+
+const isEventDataAttr = ([name]) => name.startsWith(DATA_PREFIX);
+
+const DATA_EVENTS = Object.fromEntries([...eventAttrs].map(attrEntriesMap));
+
+export const EVENTS = { ...DATA_EVENTS, once, passive, capture };
+
+export function registerEventAttribute(attr, {
+	addListeners = false,
+	base = document.body,
+	signal,
+} = {}) {
+	const fullAttr = EVENT_PREFIX + attr.toLowerCase();
+
+	if (! eventAttrs.includes(fullAttr)) {
+		const sel = `[${CSS.escape(fullAttr)}]`;
+		const prop = attrToProp(fullAttr);
+		eventAttrs.push(fullAttr);
+		EVENTS[prop] = fullAttr;
+		selector += `, ${sel}`;
+
+		if (addListeners) {
+			requestAnimationFrame(() => {
+				const config = { attrFilter: { [prop]: sel }, signal };
+				[base, ...base.querySelectorAll(sel)].forEach(el => _addListeners(el, config));
+			});
+		}
+	}
+
+	return fullAttr;
+}
+
 const observer = new MutationObserver(records => {
 	records.forEach(record  => {
 		switch(record.type) {
@@ -146,43 +183,33 @@ const observer = new MutationObserver(records => {
 	});
 });
 
-const selector = eventAttrs.map(attr => `[${CSS.escape(attr)}]`).join(', ');
+function _addListeners(el, { signal, attrFilter = EVENTS } = {}) {
+	const dataset = el.dataset;
 
-const attrToProp = attr => `on${attr[EVENT_PREFIX_LENGTH].toUpperCase()}${attr.substring(EVENT_PREFIX_LENGTH + 1)}`;
+	for (const [attr, val] of Object.entries(dataset).filter(isEventDataAttr)) {
+		try {
+			const event = 'on' + attr.substring(DATA_PREFIX_LENGTH);
 
-const attrEntriesMap = attr => [attrToProp(attr), attr];
-
-const DATA_EVENTS = Object.fromEntries([...eventAttrs].map(attrEntriesMap));
-
-export const EVENTS = { ...DATA_EVENTS, once, passive, capture };
-
-const isEventDataAttr = ([name]) => name.startsWith(DATA_PREFIX);
+			if (attrFilter.hasOwnProperty(event) && hasCallback(val)) {
+				el.addEventListener(event.substring(2).toLowerCase(), getCallback(val), {
+					passive: dataset.hasOwnProperty('aegisEventPassive'),
+					capture: dataset.hasOwnProperty('aegisEventCapture'),
+					once: dataset.hasOwnProperty('aegisEventOnce'),
+					signal,
+				});
+			}
+		} catch(err) {
+			console.error(err);
+		}
+	}
+}
 
 export function attachListeners(target, { signal } = {}) {
 	const nodes = target instanceof Element && target.matches(selector)
 		? [target, ...target.querySelectorAll(selector)]
 		: target.querySelectorAll(selector);
 
-	nodes.forEach(el => {
-		const dataset = el.dataset;
-
-		for (const [attr, val] of Object.entries(dataset).filter(isEventDataAttr)) {
-			try {
-				const event = 'on' + attr.substring(DATA_PREFIX_LENGTH);
-
-				if (EVENTS.hasOwnProperty(event) && hasCallback(val)) {
-					el.addEventListener(event.substring(2).toLowerCase(), getCallback(val), {
-						passive: dataset.hasOwnProperty('aegisEventPassive'),
-						capture: dataset.hasOwnProperty('aegisEventCapture'),
-						once: dataset.hasOwnProperty('aegisEventOnce'),
-						signal,
-					});
-				}
-			} catch(err) {
-				console.error(err);
-			}
-		}
-	});
+	nodes.forEach(el => _addListeners(el, { signal }));
 
 	return target;
 }
@@ -202,7 +229,7 @@ export const disconnectEventsObserver = () => observer.disconnect();
 
 export function setGlobalErrorHandler(callback, { capture, once, passive, signal } = {}) {
 	if (callback instanceof Function) {
-		window.addEventListener('error', callback, { capture, once, passive, signal });
+		globalThis.addEventListener('error', callback, { capture, once, passive, signal });
 	} else {
 		throw new TypeError('Callback is not a function.');
 	}

@@ -20,8 +20,20 @@ export default [{
 		'@aegisjsproject/parsers/math.js',
 		'@aegisjsproject/parsers/xml.js',
 		'@aegisjsproject/parsers/json.js',
-		'@aegisjsproject/parsers/url.js',
+		'@aegisjsproject/url/url.js',
+		'@aegisjsproject/state/state.js',
+		'@aegisjsproject/router/router.js',
+		'@aegisjsproject/component/component.js',
 	]
+}, {
+	input: 'core.js',
+	plugins: [nodeResolve()],
+	output: {
+		file: 'core.min.js',
+		format: 'esm',
+		plugins: [terser()],
+		sourcemap: true,
+	}
 }, {
 	input: 'bundle.js',
 	plugins: [nodeResolve()],
@@ -29,6 +41,7 @@ export default [{
 		file: 'bundle.min.js',
 		format: 'module',
 		plugins: [terser()],
+		sourcemap: true,
 	}
 }, {
 	input: 'polyfill.js',
@@ -37,6 +50,7 @@ export default [{
 		file: 'polyfill.min.js',
 		format: 'iife',
 		plugins: [terser()],
+		sourcemap: true,
 	}
 }, {
 	input: 'polyfill-with-policy.js',
@@ -45,6 +59,7 @@ export default [{
 		file: 'polyfill-with-policy.min.js',
 		format: 'iife',
 		plugins: [terser()],
+		sourcemap: true,
 	}
 }, {
 	input: 'bundle-with-policy.js',
@@ -53,6 +68,7 @@ export default [{
 		file: 'bundle-with-policy.min.js',
 		format: 'module',
 		plugins: [terser()],
+		sourcemap: true,
 	}
 }];
 

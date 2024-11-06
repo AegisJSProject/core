@@ -24,6 +24,7 @@ export function createComponent({
 		dataAttributes = true,
 		...sanitizer
 	} = {},
+	...attrs
 }) {
 	const el = document.createElement(tag);
 	const shadow = el.attachShadow({ mode, clonable, delegatesFocus, slotAssignment });
@@ -62,6 +63,8 @@ export function createComponent({
 			Object.entries(exportParts).map(([k, v]) => `${k}:${v}`).join(', ')
 		);
 	}
+
+	Object.entries(attrs).forEach(([attr, val]) => el.setAttribute(attr, val));
 
 	return el;
 }

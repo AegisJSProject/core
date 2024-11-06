@@ -4,7 +4,7 @@
 
 export {
 	attachListeners, observeEvents, disconnectEventsObserver, EVENTS,
-	setGlobalErrorHandler,
+	setGlobalErrorHandler, registerEventAttribute,
 } from './events.js';
 
 export {
@@ -15,7 +15,7 @@ export {
 export {
 	text, createStyleSheet, createCSSParser, css, lightCSS, darkCSS ,
 	styleSheetToFile, styleSheetToLink, createHTMLParser, html,
-	htmlToFile, xml, svg, json, math,
+	htmlToFile, xml, svg, json, math, url,
 } from './parsers.js';
 
 export {
@@ -38,3 +38,9 @@ export {
 export { observeAttribute,  observeAttributes, unobserveAttribute } from './attributeObserver.js';
 
 export { createComponent, clone } from './component.js';
+
+export * from '@aegisjsproject/state/state.js';
+
+export * from '@aegisjsproject/router/router.js';
+
+export * from '@aegisjsproject/component/component.js';

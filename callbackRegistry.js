@@ -1,3 +1,5 @@
+import { back, forward, reload } from '@aegisjsproject/router/router.js';
+
 let isRegistrationOpen = true;
 
 export const closeRegistration = () => isRegistrationOpen = false;
@@ -42,9 +44,9 @@ const handlers = new Map([
 	[FUNCS.debug.warn, console.warn],
 	[FUNCS.debug.error, console.error],
 	[FUNCS.debug.info, console.info],
-	[FUNCS.navigate.back, () => history.back()],
-	[FUNCS.navigate.forward, () => history.forward()],
-	[FUNCS.navigate.reload, () => location.reload()],
+	[FUNCS.navigate.back, back],
+	[FUNCS.navigate.forward, forward],
+	[FUNCS.navigate.reload, reload],
 	[FUNCS.navigate.link, event => {
 		if (event.isTrusted) {
 			event.preventDefault();

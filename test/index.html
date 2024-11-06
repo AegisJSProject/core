@@ -6,13 +6,13 @@
 		<meta name="color-scheme" content="light dark" />
 		<meta http-equiv="Content-Security-Policy"
 			content="default-src 'none';
-			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@aegisjsproject/ 'sha384-ahP9Bg0NJIlopirOhSjdGVQQhqQy/xLI0QtfQbbg6Xw8yfn10g5wP3+Kzy6Ct5m1';
+			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@aegisjsproject/ 'sha384-nlKtRWFJDtIzLtzBpDIZ6qoTOMFUs1xFxXBEct/tkseYBSJeKtWuq0uOe+zJ2GPn';
 			style-src 'self' blob:;
 			connect-src https://icanhazdadjoke.com/;
-			trusted-types aegis-sanitizer#html default;
+			trusted-types aegis-sanitizer#html aegis-router#html default;
 			require-trusted-types-for 'script';" />
 		<title>Aegis Test</title>
-		<script type="importmap" integrity="sha384-ahP9Bg0NJIlopirOhSjdGVQQhqQy/xLI0QtfQbbg6Xw8yfn10g5wP3+Kzy6Ct5m1">
+		<script type="importmap">
 			{
 				"imports": {
 					"@aegisjsproject/core": "../bundle-with-policy.js",
@@ -26,6 +26,12 @@
 					"@aegisjsproject/styles/": "../node_modules/@aegisjsproject/styles/",
 					"@aegisjsproject/component": "../node_modules/@aegisjsproject/component/component.js",
 					"@aegisjsproject/component/": "../node_modules/@aegisjsproject/component/",
+					"@aegisjsproject/url": "../node_modules/@aegisjsproject/url/url.js",
+					"@aegisjsproject/url/": "../node_modules/@aegisjsproject/url/",
+					"@aegisjsproject/state": "../node_modules/@aegisjsproject/state/state.js",
+					"@aegisjsproject/state/": "../node_modules/@aegisjsproject/state/",
+					"@aegisjsproject/router": "../node_modules/@aegisjsproject/router/router.js",
+					"@aegisjsproject/router/": "../node_modules/@aegisjsproject/router/",
 					"@shgysk8zer0/": "https://unpkg.com/@shgysk8zer0/",
 					"@kernvalley/": "https://unpkg.com/@kernvalley/"
 				}

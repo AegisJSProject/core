@@ -1,7 +1,7 @@
 import { stringify } from '../stringify.js';
 import { sanitizer as sanitizerConfig } from '@aegisjsproject/sanitizer/config/base.js';
 import { getRegisteredComponentTags } from '../componentRegistry.js';
-import { createHTMLParser } from '@aegisjsproject/parsers/html.js';
+import { createHTMLParser, doc } from '@aegisjsproject/parsers/html.js';
 
 const sanitizer = Object.freeze({
 	...sanitizerConfig,
@@ -14,6 +14,21 @@ const sanitizer = Object.freeze({
 });
 
 export const html = createHTMLParser(sanitizer, { mapper: stringify });
+
+export function htmlUnsafe(strings, ...values) {
+	const html = String.raw(strings, ...values.map(stringify));
+	const frag = document.createDocumentFragment();
+	const tmp = document.createElement('div');
+	tmp.setHTMLUnsafe(html);
+	frag.append(...tmp.childNodes);
+
+	return frag;
+}
+
+export function docUnsafe(strings, ...values) {
+	const html = String.raw(strings, ...values.map(stringify));
+	return Document.parseHTMLUnsafe(html);
+}
 
 export function htmlToFile(html, filename = 'document.html', {
 	elements = sanitizerConfig.elements,
@@ -33,4 +48,4 @@ export function htmlToFile(html, filename = 'document.html', {
 	);
 }
 
-export { createHTMLParser };
+export { createHTMLParser, doc };

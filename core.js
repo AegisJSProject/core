@@ -14,8 +14,8 @@ export {
 
 export {
 	text, createStyleSheet, createCSSParser, css, lightCSS, darkCSS ,
-	styleSheetToFile, styleSheetToLink, createHTMLParser, html,
-	htmlToFile, xml, svg, json, math, url,
+	styleSheetToFile, styleSheetToLink, createHTMLParser, html, doc,
+	htmlUnsafe, docUnsafe, htmlToFile, xml, svg, json, math, url,
 } from './parsers.js';
 
 export {

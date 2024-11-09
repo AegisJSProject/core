@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.17] - 2024-11-09
+
+### Added
+- Add unsafe versions of `html` and `doc` via `setHTMLUnsafe` and `parseHTMLUnsafe`
+
+### Changed
+- Upadte `@aegisjsproject/parsers`
+
 ## [v0.2.16] - 2024-11-06
 
 ### Changed

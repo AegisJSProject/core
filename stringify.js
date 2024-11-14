@@ -75,8 +75,6 @@ const formatNumber = 'Intl' in globalThis && Intl.NumberFormat instanceof Functi
 	? num => new Intl.NumberFormat().format(num)
 	: num => num.toString();
 
-const formatEl = Element.prototype.getHTML instanceof Function ? el => el.getHTML() : el => el.outerHTML;
-
 export const stringify = thing => {
 	switch(typeof thing) {
 		case 'string':
@@ -108,7 +106,7 @@ export const stringify = thing => {
 				el.append(thing.content.cloneNode(true));
 				return el.innerHTML;
 			} else if (thing instanceof Element) {
-				return formatEl(thing);
+				return thing.outerHTML;
 			} else if (thing instanceof DocumentFragment) {
 				const el = document.createElement('div');
 				el.append(thing.cloneNode(true));

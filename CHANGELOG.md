@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.18] - 2024-11-14
+
+### Fixed
+- Fixed stringifying elements
+
 ## [v0.2.17] - 2024-11-09
 
 ### Added

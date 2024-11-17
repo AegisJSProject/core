@@ -24,6 +24,8 @@ export default [{
 		'@aegisjsproject/state/state.js',
 		'@aegisjsproject/router/router.js',
 		'@aegisjsproject/component/component.js',
+		'@aegisjsproject/callback-registry/callbackRegistry.js',
+		'@aegisjsproject/callback-registry/events.js',
 	]
 }, {
 	input: 'core.js',

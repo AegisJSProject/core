@@ -5,12 +5,12 @@
 export {
 	attachListeners, observeEvents, disconnectEventsObserver, EVENTS,
 	setGlobalErrorHandler, registerEventAttribute,
-} from './events.js';
+} from '@aegisjsproject/callback-registry/events.js';
 
 export {
 	hasCallback, getCallback, listCallbacks, callCallback, createCallback,
 	closeRegistration, registerCallback, getHost, FUNCS,
-} from './callbackRegistry.js';
+} from '@aegisjsproject/callback-registry/callbackRegistry.js';
 
 export {
 	text, createStyleSheet, createCSSParser, css, lightCSS, darkCSS ,
@@ -34,8 +34,6 @@ export {
 export {
 	registerComponent, getRegisteredComponentTags, getRegisteredComponents,
 } from './componentRegistry.js';
-
-export { observeAttribute,  observeAttributes, unobserveAttribute } from './attributeObserver.js';
 
 export { createComponent, clone } from './component.js';
 

@@ -1,4 +1,4 @@
-import { attachListeners } from './events.js';
+import { attachListeners } from '@aegisjsproject/callback-registry/events.js';
 
 const ESCAPED_PATTERN = /&(?![a-zA-Z\d]{2,5};|#\d{1,3};)/g;
 

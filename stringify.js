@@ -1,5 +1,5 @@
 import { styleSheetToLink } from './parsers/css.js';
-import { createCallback } from  './callbackRegistry.js';
+import { createCallback } from  '@aegisjsproject/callback-registry/callbackRegistry.js';
 import { stringifyAttr, createAttribute } from './dom.js';
 
 const toData = ([name, val]) => ['data-' + name.replaceAll(/[A-Z]/g, c => `-${c.toLowerCase()}`), val];

@@ -63,7 +63,7 @@ export function observeAttribute(target, attributeName, callback, { signal, base
 	}
 }
 
-export function observeAttributes(target, attrs,{ base = document.body, signal } = {}) {
+export function observeAttributes(target, attrs, { base = document.body, signal } = {}) {
 	if (typeof target === 'string') {
 		observeAttributes(base.querySelector(target), attrs, { signal });
 	} else if (! (target instanceof Element)) {

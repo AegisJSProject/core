@@ -1,14 +1,14 @@
 import {
 	html, css, replaceStyles, getUniqueSelector, createComponent, closeRegistration,
-	EVENTS, FUNCS, attr, data, observeEvents, policy, registerEventAttribute,
+	data, attr, policy,
 } from '@aegisjsproject/core';
 
+import { EVENTS, FUNCS, observeEvents, registerEventAttribute } from '@aegisjsproject/callback-registry';
 import { reset } from '@aegisjsproject/styles/reset.js';
 import { baseTheme, lightTheme, darkTheme } from '@aegisjsproject/styles/theme.js';
 import { btn, btnPrimary, btnDanger, btnWarning, btnInfo, btnLink, btnSystemAccent, btnSuccess, btnSecondary } from '@aegisjsproject/styles/button.js';
 import * as bootstrap from '@aegisjsproject/styles/palette/bootstrap.js';
 import './dad-joke.js';
-
 
 observeEvents();
 const fooEvent = registerEventAttribute('foo', { addListeners: true });
@@ -41,7 +41,7 @@ frag.append(h1);
 try {
 	document.body.append(html`<header onclick="alert(location)" foo="bar">
 		${frag}
-		<hello-world>H1</hello-world><h1 foo="abr">Click Me!</h1>
+		<hello-world></hello-world><h1 foo="bar">Click Me!</h1>
 		<svg viewBox="0 0 10 10" height="24" width="24">
 			<rect x="0" y="0" height="10" width="10" rx="1" ry="1" fill="${bootstrap.info}" />
 		</svg>
@@ -81,7 +81,14 @@ try {
 		<button type="button" ${EVENTS.onClick}="${FUNCS.ui.hidePopover}" data-hide-popover-selector="#popover">Close</button>
 	</div>
 	<div id="help" popover="auto">Should be shown on button scroll</div>
-	<footer id="footer">This is the footer</footer>`);
+	<footer id="footer">
+		<div>
+			<template shadowrootmode="closed">
+				<p part="content"><slot name="content">No Content</p>
+			</template>
+			<span slot="content">Hello, World!</span>
+		</div>
+	</footer>`);
 } catch(err) {
 	console.error(err);
 }

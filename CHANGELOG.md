@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.19] - 2024-11-17
+
+### Changed
+- Use `@aegisjsproject/callback-registry` instead of own registry
+
+### Removed
+- Do not include `attributeObserver.js` in default export/bundles
+
 ## [v0.2.18] - 2024-11-14
 
 ### Fixed

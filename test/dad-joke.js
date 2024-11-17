@@ -59,10 +59,6 @@ class HTMLDataJokeElement extends AegisComponent {
 	async [SYMBOLS.render](type, { ...data }) {
 		switch(type) {
 			case TRIGGERS.constructed:
-				// shadow.getElementById('update-btn').append(updateIcon.cloneNode(true));
-				await this.update();
-				break;
-
 			case 'click':
 				await this.update();
 				break;

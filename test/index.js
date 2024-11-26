@@ -3,17 +3,27 @@ import {
 	data, attr, policy,
 } from '@aegisjsproject/core';
 
-import { EVENTS, FUNCS, observeEvents, registerEventAttribute } from '@aegisjsproject/callback-registry';
+import { FUNCS, observeEvents, on, registerEventAttribute } from '@aegisjsproject/callback-registry';
+import { onChange, onClick, onToggle, onClose, onContextmenu, onWheel, signal, controller as controllerAttr } from '@aegisjsproject/callback-registry/events.js';
 import { reset } from '@aegisjsproject/styles/reset.js';
 import { baseTheme, lightTheme, darkTheme } from '@aegisjsproject/styles/theme.js';
 import { btn, btnPrimary, btnDanger, btnWarning, btnInfo, btnLink, btnSystemAccent, btnSuccess, btnSecondary } from '@aegisjsproject/styles/button.js';
+import { manageState, stateStyle, stateKey, observeDOMState } from '@aegisjsproject/state';
 import * as bootstrap from '@aegisjsproject/styles/palette/bootstrap.js';
 import './dad-joke.js';
 
-observeEvents();
+const controller = new AbortController();
+const imgController = new AbortController();
+const [bg, setBg] = manageState('bg', '#232323');
 const fooEvent = registerEventAttribute('foo', { addListeners: true });
 const scope = getUniqueSelector();
+const blob = new Blob([`<svg height="300" width="300" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+	<rect x="0" y="0" rx="1" ry="1" height="10" width="10" fill="#${crypto.getRandomValues(new Uint8Array(3)).toHex()}"></rect>
+</svg>`], { type: 'image/svg+xml' });
+
 document.body.setAttribute(fooEvent, FUNCS.debug.log);
+document.body.dataset[stateKey] = 'bg';
+document.body.dataset[stateStyle] = 'background-color';
 
 replaceStyles(document, reset, baseTheme, lightTheme, darkTheme, btn, btnPrimary, btnDanger, btnWarning,
 	btnInfo, btnSystemAccent, btnSuccess, btnLink, btnSecondary,
@@ -46,39 +56,54 @@ try {
 			<rect x="0" y="0" height="10" width="10" rx="1" ry="1" fill="${bootstrap.info}" />
 		</svg>
 	</header>
-	${policy.createHTML('<hr />')}
-	${new DadJoke()}
-	<div class="flex row wrap btn-container">
-		<a href="./#invalid" class="btn btn-link disabled" ${EVENTS.onClick}="${FUNCS.ui.prevent}">Disabled Link</a>
-		<button data-url="./#foo" ${EVENTS.onClick}="${FUNCS.navigate.link}" class="btn btn-link">Link</button>
-		<button data-url="https://github.com/AegisJSProject/core/" ${EVENTS.onClick}="${FUNCS.navigate.popup}" class="btn btn-primary">Repo</button>
-		<button type="button" ${EVENTS.onClick}="${() => alert('Testing!')}" class="btn btn-info">TEST</button>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.debug.log}" ${data({ foo: 'bar', title: document.title, url: location.href, yes: true, no: false, date: new Date(), el: document.createElement('div') })} class="btn btn-info" ${attr({ disabled: ! navigator.onLine, lang: navigator.language })}>Log</button>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.navigate.back}" class="btn btn-system-accent" accesskey="&lt;">Back</button>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.navigate.reload}" class="btn btn-system-accent" accesskey="r">Reload</button>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.navigate.forward}" class="btn btn-system-accent" accesskey="&gt;">Forward</button>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.ui.print}" class="btn btn-info">Print</button>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.ui.remove}" data-remove-selector="header" id="remove-btn" class="btn btn-danger">Remove Header</button>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.ui.disable}" data-disable-selector="#remove-btn" class="btn btn-warning">Disable Remove Btn</button>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.ui.enable}" data-enable-selector="#remove-btn" class="btn btn-success">Enable Remove Btn</button>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.ui.hide}" data-hide-selector="header" class="btn btn-warning">Hide Header</button>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.ui.unhide}" data-unhide-selector="header" class="btn btn-success">Show Header</button>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.ui.showModal}" data-show-modal-selector="#test-dialog" class="btn btn-info">Show Modal</button>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.ui.showPopover}" data-show-popover-selector="#popover" class="btn btn-info">Show Popover</button>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.ui.hidePopover}" data-hide-popover-selector="#popover" class="btn btn-secondary">Hide Popover</button>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.ui.togglePopover}" data-toggle-popover-selector="#popover" class="btn btn-primary">Toggle Popover</button>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.ui.scrollTo}" data-scroll-to-selector="#footer" class="btn btn-primary">Scroll To Footer</button>
-		<button type="button" class="btn btn-primary btn-multi" ${EVENTS.onClick}="${FUNCS.ui.disable}" data-disable-selector=".btn:not(.btn-multi)" ${EVENTS.onContextmenu}="${FUNCS.ui.enable}" data-enable-selector=".btn" ${EVENTS.onWheel}="${FUNCS.ui.showPopover}" data-show-popover-selector="#help">Click to disable, right click to enable</button>
-		<button type="button" class="btn btn-primary" ${EVENTS.onClick}="${({ target }) => target.remove()}">Final</button>
-	</div>
-	<main id="main">${document.getElementById('tmp')}</main>
-	<dialog id="test-dialog" ${EVENTS.onToggle}="${FUNCS.debug.log}" ${EVENTS.onClose}="${FUNCS.debug.log}">
+	<nav class="flex row wrap btn-container">
+		<a href="./#invalid" class="btn btn-link disabled" ${onClick}="${FUNCS.ui.prevent}">Disabled Link</a>
+		<button data-url="./#foo" ${onClick}="${FUNCS.navigate.link}" ${signal}="${controller.signal}" class="btn btn-link">Link</button>
+		<button data-url="https://github.com/AegisJSProject/core/" ${onClick}="${FUNCS.navigate.popup}" ${signal}="${controller.signal}" class="btn btn-primary">Repo</button>
+		<button type="button" ${onClick}="${() => alert('Testing!')}" ${signal}="${controller.signal}" class="btn btn-info">TEST</button>
+		<button type="button" ${onClick}="${FUNCS.debug.log}" ${signal}="${controller.signal}" ${data({ foo: 'bar', title: document.title, url: location.href, yes: true, no: false, date: new Date(), el: document.createElement('div') })} class="btn btn-info" ${attr({ disabled: ! navigator.onLine, lang: navigator.language })}>Log</button>
+		<button type="button" ${onClick}="${FUNCS.navigate.back}" ${signal}="${controller.signal}" class="btn btn-system-accent" accesskey="&lt;">Back</button>
+		<button type="button" ${onClick}="${FUNCS.navigate.reload}" ${signal}="${controller.signal}" class="btn btn-system-accent" accesskey="r">Reload</button>
+		<button type="button" ${onClick}="${FUNCS.navigate.forward}" ${signal}="${controller.signal}" class="btn btn-system-accent" accesskey="&gt;">Forward</button>
+		<button type="button" ${onClick}="${FUNCS.ui.print}" ${signal}="${controller.signal}" class="btn btn-info">Print</button>
+		<button type="button" ${onClick}="${FUNCS.ui.remove}" ${signal}="${controller.signal}" data-remove-selector="header" id="remove-btn" class="btn btn-danger">Remove Header</button>
+		<button type="button" ${onClick}="${FUNCS.ui.disable}" ${signal}="${controller.signal}" data-disable-selector="#remove-btn" class="btn btn-warning">Disable Remove Btn</button>
+		<button type="button" ${onClick}="${FUNCS.ui.enable}" ${signal}="${controller.signal}" data-enable-selector="#remove-btn" class="btn btn-success">Enable Remove Btn</button>
+		<button type="button" ${onClick}="${FUNCS.ui.hide}" ${signal}="${controller.signal}" data-hide-selector="header" class="btn btn-warning">Hide Header</button>
+		<button type="button" ${onClick}="${FUNCS.ui.unhide}" ${signal}="${controller.signal}" data-unhide-selector="header" class="btn btn-success">Show Header</button>
+		<button type="button" ${onClick}="${FUNCS.ui.showModal}" ${signal}="${controller.signal}" data-show-modal-selector="#test-dialog" class="btn btn-info">Show Modal</button>
+		<button type="button" ${onClick}="${FUNCS.ui.showPopover}" ${signal}="${controller.signal}" data-show-popover-selector="#popover" class="btn btn-info">Show Popover</button>
+		<button type="button" ${onClick}="${FUNCS.ui.hidePopover}" ${signal}="${controller.signal}" data-hide-popover-selector="#popover" class="btn btn-secondary">Hide Popover</button>
+		<button type="button" ${onClick}="${FUNCS.ui.togglePopover}" ${signal}="${controller.signal}" data-toggle-popover-selector="#popover" class="btn btn-primary">Toggle Popover</button>
+		<button type="button" ${onClick}="${FUNCS.ui.scrollTo}" ${signal}="${controller.signal}" data-scroll-to-selector="#footer" class="btn btn-primary">Scroll To Footer</button>
+		<button type="button" class="btn btn-primary btn-multi" ${onClick}="${FUNCS.ui.disable}" ${signal}="${controller.signal}" data-disable-selector=".btn:not(.btn-multi)" ${onContextmenu}="${FUNCS.ui.enable}" data-enable-selector=".btn" ${onWheel}="${FUNCS.ui.showPopover}" data-show-popover-selector="#help">Click to disable, right click to enable</button>
+		<button type="button" class="btn btn-warning" ${onClick}="${FUNCS.ui.abortController}" ${controllerAttr}="${controller}" ${signal}="${controller.signal}">Abort</button>
+		<button type="button" class="btn btn-danger" ${on('click', ({ target }) => target.remove(), { once: true, signal: controller.signal })}>Remove Btn</button>
+	</nav>
+	<main id="main">
+		${policy.createHTML('<hr />')}
+		${new DadJoke()}
+		${document.getElementById('tmp')}
+		<input type="color" ${onChange}="${({ target }) => setBg(target.value)}" value="${bg}" ${signal}="${controller.signal}" />
+	</main>
+	<dialog id="test-dialog" ${onToggle}="${FUNCS.debug.log}" ${onClose}="${FUNCS.debug.log}" ${signal}="${controller.signal}">
 		<p>A Test Dialog</p>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.ui.closeModal}" data-close-modal-selector="#test-dialog">Close</button>
+		<button type="button" ${onClick}="${FUNCS.ui.closeModal}" data-close-modal-selector="#test-dialog">Close</button>
 	</dialog>
-	<div id="popover" popover="manual" ${EVENTS.onToggle}="${FUNCS.debug.log}">
+	<div id="popover" popover="manual" ${onToggle}="${FUNCS.debug.log}" ${signal}="${controller.signal}">
 		<p>A popover</a>
-		<button type="button" ${EVENTS.onClick}="${FUNCS.ui.hidePopover}" data-hide-popover-selector="#popover">Close</button>
+		<button type="button" ${onClick}="${FUNCS.ui.hidePopover}" ${signal}="${controller.signal}" data-hide-popover-selector="#popover">Close</button>
+		<img src="${blob}"
+		${on('load', ({ target }) => {
+		imgController.abort();
+		URL.revokeObjectURL(target.src);
+	}, { once: true, signal: imgController.signal })}
+
+		${on('error', ({ target }) => {
+		imgController.abort();
+		URL.revokeObjectURL(target.src);
+		console.error(`Error loading <img src="${target.src}">`);
+	}, { once: true, signal: imgController.signal })} />
 	</div>
 	<div id="help" popover="auto">Should be shown on button scroll</div>
 	<footer id="footer">
@@ -123,8 +148,7 @@ const comp = createComponent({
 
 document.body.append(comp);
 
-// comp.showPopover();
-
 setTimeout(() => document.body.dispatchEvent(new Event('foo')), 500);
-
+observeDOMState(document.documentElement, { signal: controller.signal });
 closeRegistration();
+observeEvents();

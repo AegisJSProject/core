@@ -49,6 +49,7 @@ const template = html`
 		<span>Get new Dad Joke</span>
 		${updateIcon}
 	</button>
+</div>
 `;
 
 class HTMLDataJokeElement extends AegisComponent {

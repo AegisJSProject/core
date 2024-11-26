@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Add support for stringifying of `AbortSignal` and `AbortController` using `@aegisjsproject/callback-registry`
+
+### Updated
+- Various lib updates
+
+### Fixed
+- Remove duplication of Trusted Types Policy for sanitizer (removed polyfills)
+
 ## [v0.2.19] - 2024-11-17
 
 ### Changed

@@ -46,24 +46,6 @@ export default [{
 		sourcemap: true,
 	}
 }, {
-	input: 'polyfill.js',
-	plugins: [nodeResolve()],
-	output: {
-		file: 'polyfill.min.js',
-		format: 'iife',
-		plugins: [terser()],
-		sourcemap: true,
-	}
-}, {
-	input: 'polyfill-with-policy.js',
-	plugins: [nodeResolve()],
-	output: {
-		file: 'polyfill-with-policy.min.js',
-		format: 'iife',
-		plugins: [terser()],
-		sourcemap: true,
-	}
-}, {
 	input: 'bundle-with-policy.js',
 	plugins: [nodeResolve()],
 	output: {

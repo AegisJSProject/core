@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.20] - 2024-11-25
+
 ### Added
 - Add support for stringifying of `AbortSignal` and `AbortController` using `@aegisjsproject/callback-registry`
 

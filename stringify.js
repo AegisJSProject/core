@@ -1,5 +1,6 @@
 import { styleSheetToLink } from './parsers/css.js';
 import { createCallback } from  '@aegisjsproject/callback-registry/callbackRegistry.js';
+import { registerSignal, registerController } from '@aegisjsproject/callback-registry/callbackRegistry.js';
 import { stringifyAttr, createAttribute } from './dom.js';
 
 const toData = ([name, val]) => ['data-' + name.replaceAll(/[A-Z]/g, c => `-${c.toLowerCase()}`), val];
@@ -111,6 +112,8 @@ export const stringify = thing => {
 				const el = document.createElement('div');
 				el.append(thing.cloneNode(true));
 				return el.innerHTML;
+			} else if (thing instanceof Blob) {
+				return URL.createObjectURL(thing);
 			} else if(thing instanceof Date) {
 				return formatDate(thing);
 			} else if (thing instanceof CSSStyleSheet) {
@@ -124,11 +127,15 @@ export const stringify = thing => {
 			} else if (thing instanceof Attr) {
 				return stringifyAttr(thing);
 			} else if (thing instanceof NamedNodeMap) {
-				return [...thing].map(stringifyAttr).join(' ');
+				return Array.from(thing, stringifyAttr).join(' ');
 			} else if ('TrustedType' in globalThis && thing instanceof globalThis.TrustedType) {
 				return thing;
 			} else if ('Iterator' in globalThis && thing instanceof globalThis.Iterator) {
 				return stringify([...thing]);
+			} else if (thing instanceof AbortSignal) {
+				return registerSignal(thing);
+			} else if (thing instanceof AbortController) {
+				return registerController(thing);
 			} else {
 				return thing.toString();
 			}

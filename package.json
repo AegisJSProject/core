@@ -101,7 +101,7 @@
   },
   "dependencies": {
     "@aegisjsproject/callback-registry": "^1.0.2",
-    "@aegisjsproject/parsers": "^0.0.15",
+    "@aegisjsproject/parsers": "^0.0.16",
     "@aegisjsproject/router": "^1.1.1",
     "@aegisjsproject/state": "^1.0.3",
     "@aegisjsproject/url": "^1.0.1"

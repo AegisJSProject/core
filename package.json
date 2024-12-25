@@ -1,6 +1,6 @@
 {
   "name": "@aegisjsproject/core",
-  "version": "0.2.21",
+  "version": "0.2.22",
   "description": "A fast, secure, modern, light-weight, and simple JS library for creating web components and more!",
   "keywords": [
     "aegis",
@@ -102,8 +102,8 @@
   "dependencies": {
     "@aegisjsproject/callback-registry": "^1.0.2",
     "@aegisjsproject/parsers": "^0.0.16",
-    "@aegisjsproject/router": "^1.1.1",
-    "@aegisjsproject/state": "^1.0.3",
+    "@aegisjsproject/router": "^1.1.3",
+    "@aegisjsproject/state": "^1.0.5",
     "@aegisjsproject/url": "^1.0.1"
   }
 }

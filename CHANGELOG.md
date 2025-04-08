@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.23] - 2025-04-08
+
+### Added
+- Add `createTrustedHTMLTemplate()` to create trusted HTML generating tagged templates
+
 ## [v0.2.22] - 2024-12-25
 
 ### Changed

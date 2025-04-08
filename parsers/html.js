@@ -2,6 +2,7 @@ import { stringify } from '../stringify.js';
 import { sanitizer as sanitizerConfig } from '@aegisjsproject/sanitizer/config/base.js';
 import { getRegisteredComponentTags } from '../componentRegistry.js';
 import { createHTMLParser, doc } from '@aegisjsproject/parsers/html.js';
+import { isTrustPolicy } from '../trust.js';
 
 const sanitizer = Object.freeze({
 	...sanitizerConfig,
@@ -14,6 +15,14 @@ const sanitizer = Object.freeze({
 });
 
 export const html = createHTMLParser(sanitizer, { mapper: stringify });
+
+export function createTrustedHTMLTemplate(policy) {
+	if (isTrustPolicy(policy)) {
+		return (...args) => policy.createHTML(String.raw.apply(null, args));
+	} else {
+		return String.raw;
+	}
+}
 
 export function htmlUnsafe(strings, ...values) {
 	const html = String.raw(strings, ...values.map(stringify));

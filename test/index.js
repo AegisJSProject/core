@@ -1,6 +1,6 @@
 import {
 	html, css, replaceStyles, getUniqueSelector, createComponent, closeRegistration,
-	data, attr, policy,
+	data, attr, policy, createTrustedHTMLTemplate,
 } from '@aegisjsproject/core';
 
 import { FUNCS, observeEvents, on, registerEventAttribute } from '@aegisjsproject/callback-registry';
@@ -11,6 +11,8 @@ import { btn, btnPrimary, btnDanger, btnWarning, btnInfo, btnLink, btnSystemAcce
 import { manageState, stateStyle, stateKey, observeDOMState } from '@aegisjsproject/state';
 import * as bootstrap from '@aegisjsproject/styles/palette/bootstrap.js';
 import './dad-joke.js';
+
+const trustedHTML = createTrustedHTMLTemplate(policy);
 
 const controller = new AbortController();
 const imgController = new AbortController();
@@ -106,7 +108,9 @@ try {
 	}, { once: true, signal: imgController.signal })} />
 	</div>
 	<div id="help" popover="auto">Should be shown on button scroll</div>
-	<footer id="footer">
+	`);
+
+	document.body.insertAdjacentHTML('beforeend', trustedHTML`<footer id="footer">
 		<div>
 			<template shadowrootmode="closed">
 				<p part="content"><slot name="content">No Content</p>

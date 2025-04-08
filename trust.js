@@ -176,10 +176,8 @@ export function createPolicy(name, {
 
 export function createSanitizerPolicy(name = 'aegis#html') {
 	return createPolicy(name, {
-		createHTML(input, sanitizer) {
-			const el = document.createElement('div');
-			el.setHTML(input, { sanitizer });
-			return el.innerHTML;
+		createHTML(input, config) {
+			return Document.parseHTML(input, config).body.innerHTML;
 		}
 	});
 }

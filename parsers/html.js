@@ -16,11 +16,57 @@ const sanitizer = Object.freeze({
 
 export const html = createHTMLParser(sanitizer, { mapper: stringify });
 
+export const el = (...args) => html.apply(null, args)?.firstElementChild;
+
+export function createShadowParser({
+	tagName = 'div',
+	mode = 'open',
+	clonable = true,
+	serializable = true,
+	delegatesFocus = false,
+	slotAssignment = 'named',
+	sanitizer: sanitizerConfig = sanitizer,
+	exportParts,
+} = {}) {
+	const parser = createHTMLParser(sanitizerConfig, { mapper: stringify });
+
+	if (Array.isArray(exportParts)) {
+		exportParts = exportParts.join(', ');
+	} else if (typeof exportParts === 'object') {
+		exportParts =  Object.entries(exportParts).map(([k, v]) => `${k}: ${v}`).join(', ');
+	}
+
+	return (...args) => {
+		const host = document.createElement(tagName);
+		const shadowRoot = host.attachShadow({ mode, clonable, serializable, delegatesFocus, slotAssignment });
+
+		shadowRoot.append(parser.apply(parser, args));
+
+		if (typeof exportParts === 'string') {
+			host.setAttribute('exportparts', exportParts);
+		}
+
+		return host;
+	};
+}
+
+export const shadow = createShadowParser();
+
 export function createTrustedHTMLTemplate(policy) {
 	if (isTrustPolicy(policy)) {
-		return (...args) => policy.createHTML(String.raw.apply(null, args));
+		return (strings, ...values) => policy.createHTML(String.raw(strings, ...values.map(stringify)));
 	} else {
-		return String.raw;
+		throw new TypeError('Not a Trusted Types Policy.');
+	}
+}
+
+export function trustedHTML(strings, ...values) {
+	if (isTrustPolicy(trustedTypes?.defaultPolicy)) {
+		return trustedTypes.defaultPolicy.createHTML(String.raw(strings, ...values.map(stringify)));
+	} else if (! ('trustedTypes' in globalThis)) {
+		throw new Error('Trusted Types is not supported.');
+	} else {
+		throw new TypeError('No default Trusted Types Policy is available.');
 	}
 }
 

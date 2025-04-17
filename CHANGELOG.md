@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v0.2.23] - 2025-04-08
 
+## [v0.2.24] - 2025-04-17
+
+### Added
+- Add parser for web component/shadow DOM
+
+### Changed
+- `createTrustedHTMLTemplate` now throws if not given a `TrustedTypePolicy`
+
 ### Added
 - Add `createTrustedHTMLTemplate()` to create trusted HTML generating tagged templates
 

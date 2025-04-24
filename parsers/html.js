@@ -3,6 +3,7 @@ import { sanitizer as sanitizerConfig } from '@aegisjsproject/sanitizer/config/b
 import { getRegisteredComponentTags } from '../componentRegistry.js';
 import { createHTMLParser, doc } from '@aegisjsproject/parsers/html.js';
 import { isTrustPolicy } from '../trust.js';
+import { observeEvents } from '@aegisjsproject/callback-registry';
 
 const sanitizer = Object.freeze({
 	...sanitizerConfig,
@@ -25,10 +26,11 @@ export function createShadowParser({
 	serializable = true,
 	delegatesFocus = false,
 	slotAssignment = 'named',
-	sanitizer: sanitizerConfig = sanitizer,
+	sanitizer = sanitizerConfig,
 	exportParts,
+	callback = ({ shadowRoot }) => observeEvents(shadowRoot),
 } = {}) {
-	const parser = createHTMLParser(sanitizerConfig, { mapper: stringify });
+	const parser = createHTMLParser(sanitizer, { mapper: stringify });
 
 	if (Array.isArray(exportParts)) {
 		exportParts = exportParts.join(', ');
@@ -39,11 +41,31 @@ export function createShadowParser({
 	return (...args) => {
 		const host = document.createElement(tagName);
 		const shadowRoot = host.attachShadow({ mode, clonable, serializable, delegatesFocus, slotAssignment });
+		const template = parser.apply(parser, args);
 
-		shadowRoot.append(parser.apply(parser, args));
+		shadowRoot.adoptedStyleSheets = Array.from(
+			template.querySelectorAll('style'),
+			style => {
+				const sheet = new CSSStyleSheet({
+					media: style.media,
+					disabled: style.hasAttribute('disabled'), // `style.disabled` != `<style disabled>`
+					baseURL: style.dataset.baseUrl, // Nothing maps to `baseURL`, so use `data-base-url`
+				});
+
+				sheet.replaceSync(style.textContent);
+				style.remove();
+				return sheet;
+			}
+		);
+
+		shadowRoot.append(template);
 
 		if (typeof exportParts === 'string') {
 			host.setAttribute('exportparts', exportParts);
+		}
+
+		if (callback instanceof Function) {
+			callback.call(host, { shadowRoot, host });
 		}
 
 		return host;
@@ -51,6 +73,11 @@ export function createShadowParser({
 }
 
 export const shadow = createShadowParser();
+export const styledShadow = createShadowParser({
+	mode: 'closed',
+	clonable: false,
+	sanitizer: { elements: [...sanitizerConfig.elements, 'style'] },
+});
 
 export function createTrustedHTMLTemplate(policy) {
 	if (isTrustPolicy(policy)) {

@@ -16,7 +16,7 @@ export {
 	text, createStyleSheet, createCSSParser, css, lightCSS, darkCSS ,
 	styleSheetToFile, styleSheetToLink, createHTMLParser, html, doc, trustedHTML,
 	htmlUnsafe, docUnsafe, htmlToFile, createTrustedHTMLTemplate, xml, svg, json, math, url,
-	createShadowParser, shadow, el,
+	createShadowParser, shadow, styledShadow, el, createBoundParser, adoptStyles, prefixCSSRules,
 } from './parsers.js';
 
 export {

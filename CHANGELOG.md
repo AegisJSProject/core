@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.27] - 2025-11-18
+
+### Fixed
+- Fix `frag.setHTML()` -> `shadow.setHTML()`
+
 ## [v0.2.26] - 2025-11-18
 
 ### Changed

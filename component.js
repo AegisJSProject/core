@@ -30,9 +30,7 @@ export function createComponent({
 	const shadow = el.attachShadow({ mode, clonable, delegatesFocus, slotAssignment });
 
 	if (typeof template === 'string' && template.length !== 0) {
-		const frag = document.createDocumentFragment();
-		frag.setHTML(template, { elements, attributes, comments, dataAttributes, ...sanitizer });
-		shadow.append(frag);
+		shadow.setHTML(template, { elements, attributes, comments, dataAttributes, ...sanitizer });
 	} else if (! (template instanceof Node)) {
 		throw new TypeError('Missing or invalid template.');
 	} else if (template instanceof HTMLTemplateElement) {

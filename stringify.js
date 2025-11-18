@@ -1,4 +1,4 @@
-import { styleSheetToLink } from './parsers/css.js';
+// import { styleSheetToLink } from './parsers/css.js';
 import { createCallback } from  '@aegisjsproject/callback-registry/callbackRegistry.js';
 import { registerSignal, registerController } from '@aegisjsproject/callback-registry/callbackRegistry.js';
 import { stringifyAttr, createAttribute } from './dom.js';
@@ -112,12 +112,13 @@ export const stringify = thing => {
 				const el = document.createElement('div');
 				el.append(thing.cloneNode(true));
 				return el.innerHTML;
+			} else if (thing instanceof CSSStyleSheet) {
+				document.adoptedStyleSheets = [...document.adoptedStyleSheets, thing];
+				break;
 			} else if (thing instanceof Blob) {
 				return URL.createObjectURL(thing);
 			} else if(thing instanceof Date) {
 				return formatDate(thing);
-			} else if (thing instanceof CSSStyleSheet) {
-				return styleSheetToLink(thing).outerHTML;
 			} else if (thing instanceof DOMTokenList) {
 				return [...thing].join(' ');
 			} else if (thing instanceof NodeList || thing instanceof HTMLCollection || thing instanceof HTMLFormControlsCollection) {

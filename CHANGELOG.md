@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v0.2.25] - 2025-11-18
+## [v0.2.26] - 2025-11-18
 
 ### Changed
 - Update sanitizer

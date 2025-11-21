@@ -1,8 +1,9 @@
 import {
 	html, css, replaceStyles, getUniqueSelector, createComponent, closeRegistration,
-	data, attr, policy, createTrustedHTMLTemplate,
+	data, attr, createTrustedHTMLTemplate,
 } from '@aegisjsproject/core';
 
+import { sanitizer as defaultSanitizer } from '@aegisjsproject/sanitizer/config/html.js';
 import { FUNCS, observeEvents, on, registerEventAttribute } from '@aegisjsproject/callback-registry';
 import { onChange, onClick, onToggle, onClose, onContextmenu, onWheel, signal, controller as controllerAttr } from '@aegisjsproject/callback-registry/events.js';
 import { reset } from '@aegisjsproject/styles/reset.js';
@@ -11,6 +12,20 @@ import { btn, btnPrimary, btnDanger, btnWarning, btnInfo, btnLink, btnSystemAcce
 import { manageState, stateStyle, stateKey, observeDOMState } from '@aegisjsproject/state';
 import * as bootstrap from '@aegisjsproject/styles/palette/bootstrap.js';
 import './dad-joke.js';
+
+const policy = trustedTypes.createPolicy('default', {
+	createHTML(input, sanitizer) {
+		const el = document.createElement('div');
+
+		if (typeof sanitizer === 'object') {
+			el.setHTML(input, { sanitizer });
+		} else {
+			el.setHTML(input, { sanitizer: defaultSanitizer });
+		}
+
+		return el.innerHTML;
+	}
+});
 
 const trustedHTML = createTrustedHTMLTemplate(policy);
 

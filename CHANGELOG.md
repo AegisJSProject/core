@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.30] - 2026-01-05
+
+### Added
+- Add `escapeAttrName()`
+
+### Changed
+- Refactor HTML escaping
+
+### Deprecated
+- Mark `escapeAttrValue()` as deprecated with warning to use `escape()`
+
 ## [v0.2.29] - 2025-12-23
 
 ### Changed

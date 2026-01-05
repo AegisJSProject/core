@@ -1,11 +1,30 @@
 import { attachListeners } from '@aegisjsproject/callback-registry/events.js';
+export const HTML_UNSAFE_PATTERN = /[<>"']|&(?![a-zA-Z\d]{2,5};|#\d{1,3};)/g;
+/*eslint no-control-regex: "off"*/
+export const ATTR_NAME_UNSAFE_PATTERN = /[\u0000-\u001f\u007f-\u009f\s"'\\/=><&]/g;
+export const HTML_REPLACEMENTS = Object.freeze({
+	'&': '&amp;',
+	'"': '&quot;',
+	'\'': '&apos;',
+	'<': '&lt;',
+	'>': '&gt;',
+});
 
-const ESCAPED_PATTERN = /&(?![a-zA-Z\d]{2,5};|#\d{1,3};)/g;
+export const escape = str => (str?.toString?.() ?? '')
+	.replaceAll(HTML_UNSAFE_PATTERN, char => HTML_REPLACEMENTS[char]);
 
-export const escapeAttrVal = str => str.toString()
-	// Do not double-escape
-	.replaceAll(ESCAPED_PATTERN, '&amp;')
-	.replaceAll('"', '&quot;');
+/**
+ *
+ * @param {@deprecated} str
+ * @returns {string}
+ */
+export const escapeAttrVal = str => {
+	console.warn('`escapeAttrVal()` is deprecated. Please use `escape()` instead.');
+	return escape(str);
+};
+
+export const escapeAttrName = str => (str?.toString?.() ?? '')
+	.replace(ATTR_NAME_UNSAFE_PATTERN, char => '_' + char.charCodeAt(0).toString(16).padStart(4, '0') + '_');
 
 export function createAttribute(name, value = '', namespace) {
 	const attr = typeof namespace === 'string'
@@ -17,13 +36,7 @@ export function createAttribute(name, value = '', namespace) {
 	return attr;
 }
 
-export const stringifyAttr = attr => `${attr.name}="${escapeAttrVal(attr.value)}"`;
-
-export const escape = str => str.toString()
-	.replaceAll(ESCAPED_PATTERN, '&amp;')
-	.replaceAll('<', '&lt;')
-	.replaceAll('>', '&gt;')
-	.replaceAll('"', '&quot;');
+export const stringifyAttr = attr => `${escapeAttrName(attr?.name)}="${escape(attr?.value)}"`;
 
 export const getUniqueSelector = (prefix = '_aegis-scope') => `${prefix}-${crypto.randomUUID()}`;
 

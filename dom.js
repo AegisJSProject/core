@@ -1,17 +1,6 @@
 import { attachListeners } from '@aegisjsproject/callback-registry/events.js';
+import { escapeHTML as escape, escapeAttrName, ATTR_NAME_UNSAFE_PATTERN, HTML_REPLACEMENTS } from '@aegisjsproject/escape/html.js';
 export const HTML_UNSAFE_PATTERN = /[<>"']|&(?![a-zA-Z\d]{2,5};|#\d{1,3};)/g;
-/*eslint no-control-regex: "off"*/
-export const ATTR_NAME_UNSAFE_PATTERN = /[\u0000-\u001f\u007f-\u009f\s"'\\/=><&]/g;
-export const HTML_REPLACEMENTS = Object.freeze({
-	'&': '&amp;',
-	'"': '&quot;',
-	'\'': '&apos;',
-	'<': '&lt;',
-	'>': '&gt;',
-});
-
-export const escape = str => (str?.toString?.() ?? '')
-	.replaceAll(HTML_UNSAFE_PATTERN, char => HTML_REPLACEMENTS[char]);
 
 /**
  *
@@ -22,9 +11,6 @@ export const escapeAttrVal = str => {
 	console.warn('`escapeAttrVal()` is deprecated. Please use `escape()` instead.');
 	return escape(str);
 };
-
-export const escapeAttrName = str => (str?.toString?.() ?? '')
-	.replace(ATTR_NAME_UNSAFE_PATTERN, char => '_' + char.charCodeAt(0).toString(16).padStart(4, '0') + '_');
 
 export function createAttribute(name, value = '', namespace) {
 	const attr = typeof namespace === 'string'
@@ -124,3 +110,5 @@ export function replace(target, ...items) {
 		attachListeners(target instanceof ShadowRoot ? target.host : target);
 	}
 }
+
+export { escapeAttrName, escape, ATTR_NAME_UNSAFE_PATTERN, HTML_REPLACEMENTS };

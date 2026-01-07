@@ -1,5 +1,7 @@
-import { useDefaultCSP, addScriptSrc, addConnectSrc, addTrustedTypePolicy, lockCSP } from '@aegisjsproject/http-utils/csp.js';
+import { useDefaultCSP, addScriptSrc, addImageSrc, addConnectSrc, addTrustedTypePolicy, lockCSP } from '@aegisjsproject/http-utils/csp.js';
+
 addScriptSrc('https://unpkg.com/@shgysk8zer0/', 'https://unpkg.com/@aegisjsproject/');
+addImageSrc('blob:');
 addConnectSrc('https://icanhazdadjoke.com/');
 addTrustedTypePolicy('aegis-router#html', 'aegis-sanitizer#html', 'default');
 lockCSP();

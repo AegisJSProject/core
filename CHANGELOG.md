@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Use `@aegisjsproject/escape` for HTML escaping
+
 ## [v0.2.30] - 2026-01-05
 
 ### Added

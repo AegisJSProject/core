@@ -26,6 +26,7 @@ export default [{
 		'@aegisjsproject/component/component.js',
 		'@aegisjsproject/callback-registry/callbackRegistry.js',
 		'@aegisjsproject/callback-registry/events.js',
+		'@aegisjsproject/escape/html.js',
 	]
 }, {
 	input: 'core.js',

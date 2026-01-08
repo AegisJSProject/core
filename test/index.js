@@ -1,6 +1,6 @@
 import {
 	html, css, replaceStyles, getUniqueSelector, createComponent, closeRegistration,
-	data, attr, createTrustedHTMLTemplate,
+	data, attr, createTrustedHTMLTemplate, createStyleScope,
 } from '@aegisjsproject/core';
 
 import { sanitizer as defaultSanitizer } from '@aegisjsproject/sanitizer/config/html.js';
@@ -42,7 +42,7 @@ document.body.setAttribute(fooEvent, FUNCS.debug.log);
 document.body.dataset[stateKey] = 'bg';
 document.body.dataset[stateStyle] = 'background-color';
 
-replaceStyles(document, reset, baseTheme, lightTheme, darkTheme, btn, btnPrimary, btnDanger, btnWarning,
+replaceStyles(document, ...document.adoptedStyleSheets, reset, baseTheme, lightTheme, darkTheme, btn, btnPrimary, btnDanger, btnWarning,
 	btnInfo, btnSystemAccent, btnSuccess, btnLink, btnSecondary,
 	css`.${scope} {
 		color: red;
@@ -57,6 +57,8 @@ replaceStyles(document, reset, baseTheme, lightTheme, darkTheme, btn, btnPrimary
 	}
 `);
 
+const style = createStyleScope(document.body, { media: matchMedia('(min-width: 800px)')});
+
 const DadJoke = await customElements.whenDefined('dad-joke');
 const frag = document.createDocumentFragment();
 const h1 = document.createElement('h1');
@@ -66,7 +68,10 @@ h1.textContent = 'Hello, World!';
 frag.append(h1);
 
 try {
-	document.body.append(html`<header onclick="alert(location)" foo="bar">
+	document.body.append(html`<header class="${style`
+			background-color: rgb(0, 0, 0, 0.6);
+			backdrop-filter: blur(4px);
+		`}" onclick="alert(location)" foo="bar">
 		${frag}
 		<hello-world></hello-world><h1 foo="bar">Click Me!</h1>
 		<svg viewBox="0 0 10 10" height="24" width="24">

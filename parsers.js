@@ -1,7 +1,7 @@
 export { text } from './parsers/text.js';
 export {
 	createStyleSheet, createCSSParser, css, lightCSS, prefixCSSRules,
-	darkCSS, styleSheetToFile, styleSheetToLink, createBoundParser, adoptStyles,
+	darkCSS, styleSheetToFile, styleSheetToLink, createBoundParser, adoptStyles, createStyleScope,
 } from './parsers/css.js';
 export {
 	createHTMLParser, html, doc, htmlUnsafe, docUnsafe, htmlToFile,

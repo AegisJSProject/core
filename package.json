@@ -99,7 +99,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@shgysk8zer0/eslint-config": "^1.0.4",
     "@shgysk8zer0/importmap": "^1.7.4",
-    "@shgysk8zer0/polyfills": "^0.5.3",
+    "@shgysk8zer0/polyfills": "^0.6.0",
     "eslint": "^9.0.0",
     "rollup": "^4.9.6"
   },

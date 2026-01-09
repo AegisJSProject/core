@@ -13,6 +13,8 @@ import { manageState, stateStyle, stateKey, observeDOMState } from '@aegisjsproj
 import * as bootstrap from '@aegisjsproject/styles/palette/bootstrap.js';
 import './dad-joke.js';
 
+const { homepage } = await fetch('/package.json').then(resp => resp.json());
+
 const policy = trustedTypes.createPolicy('default', {
 	createHTML(input, sanitizer) {
 		const el = document.createElement('div');
@@ -68,20 +70,26 @@ h1.textContent = 'Hello, World!';
 frag.append(h1);
 
 try {
-	document.body.append(html`<header class="${style`
-			background-color: rgb(0, 0, 0, 0.6);
-			backdrop-filter: blur(4px);
-		`}" onclick="alert(location)" foo="bar">
+	document.body.append(html`<header onclick="alert(location)" foo="bar">
 		${frag}
 		<hello-world></hello-world><h1 foo="bar">Click Me!</h1>
 		<svg viewBox="0 0 10 10" height="24" width="24">
 			<rect x="0" y="0" height="10" width="10" rx="1" ry="1" fill="${bootstrap.info}" />
 		</svg>
 	</header>
-	<nav class="flex row wrap btn-container">
+	<nav class="flex row wrap btn-container ${style`
+			background: linear-gradient(
+				180deg,
+				rgba(20, 20, 20, 0.7) 0%,
+				rgba(20, 20, 20, 0.4) 100%
+			);
+			backdrop-filter: blur(8px);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+	`}">
 		<a href="./#invalid" class="btn btn-link disabled" ${onClick}="${FUNCS.ui.prevent}">Disabled Link</a>
 		<button data-url="./#foo" ${onClick}="${FUNCS.navigate.link}" ${signal}="${controller.signal}" class="btn btn-link">Link</button>
-		<button data-url="https://github.com/AegisJSProject/core/" ${onClick}="${FUNCS.navigate.popup}" ${signal}="${controller.signal}" class="btn btn-primary">Repo</button>
+		<button data-url="${homepage}" ${onClick}="${FUNCS.navigate.popup}" ${signal}="${controller.signal}" class="btn btn-primary">Repo</button>
 		<button type="button" ${onClick}="${() => alert('Testing!')}" ${signal}="${controller.signal}" class="btn btn-info">TEST</button>
 		<button type="button" ${onClick}="${FUNCS.debug.log}" ${signal}="${controller.signal}" ${data({ foo: 'bar', title: document.title, url: location.href, yes: true, no: false, date: new Date(), el: document.createElement('div') })} class="btn btn-info" ${attr({ disabled: ! navigator.onLine, lang: navigator.language })}>Log</button>
 		<button type="button" ${onClick}="${FUNCS.navigate.back}" ${signal}="${controller.signal}" class="btn btn-system-accent" accesskey="&lt;">Back</button>
@@ -130,14 +138,19 @@ try {
 	<div id="help" popover="auto">Should be shown on button scroll</div>
 	`);
 
-	document.body.insertAdjacentHTML('beforeend', trustedHTML`<footer id="footer">
+	const footer = document.createElement('footer');
+	footer.id = 'footer';
+	footer.setHTMLUnsafe(trustedHTML`
 		<div>
 			<template shadowrootmode="closed">
-				<p part="content"><slot name="content">No Content</p>
+				<h2>Secret Message</h2>
+				<p part="content" class="${style`color: green;`}"><slot name="content">No Content</p>
 			</template>
 			<span slot="content">Hello, World!</span>
 		</div>
-	</footer>`);
+	`);
+
+	document.body.append(footer);
 } catch(err) {
 	console.error(err);
 }

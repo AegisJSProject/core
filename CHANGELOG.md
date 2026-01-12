@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.33] - 2026-01-12
+
+### Added
+- Add registry for `Blob`s as `blob:` URIs
+- Add `useScopedStyle()`
+- Add `stringify` inside `useScopedStyle()` and convert `Blob`s to `blob:` using `registerBlob()`
+
+### Deprecated
+- Deprecated `createStyleScope()`
+
 ## [v0.2.32] - 2026-01-09
 
 ### Changed

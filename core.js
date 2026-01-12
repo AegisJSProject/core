@@ -13,7 +13,7 @@ export {
 } from '@aegisjsproject/callback-registry/callbackRegistry.js';
 
 export {
-	text, createStyleSheet, createCSSParser, css, lightCSS, darkCSS ,
+	text, createStyleSheet, createCSSParser, css, lightCSS, darkCSS, useScopedStyle,
 	styleSheetToFile, styleSheetToLink, createHTMLParser, html, doc, trustedHTML,
 	htmlUnsafe, docUnsafe, htmlToFile, createTrustedHTMLTemplate, xml, svg, json, math, url,
 	createShadowParser, shadow, styledShadow, el, createBoundParser, adoptStyles, prefixCSSRules, createStyleScope,
@@ -35,6 +35,8 @@ export {
 export {
 	registerComponent, getRegisteredComponentTags, getRegisteredComponents,
 } from './componentRegistry.js';
+
+export { registerBlob, unregisterBlob, getBlobURL, hasBlobURL } from './blob-registry.js';
 
 export { createComponent, clone } from './component.js';
 

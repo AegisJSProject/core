@@ -1,6 +1,6 @@
 export { text } from './parsers/text.js';
 export {
-	createStyleSheet, createCSSParser, css, lightCSS, prefixCSSRules,
+	createStyleSheet, createCSSParser, css, lightCSS, prefixCSSRules, useScopedStyle,
 	darkCSS, styleSheetToFile, styleSheetToLink, createBoundParser, adoptStyles, createStyleScope,
 } from './parsers/css.js';
 export {

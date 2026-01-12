@@ -2,6 +2,7 @@
 import { createCallback } from  '@aegisjsproject/callback-registry/callbackRegistry.js';
 import { registerSignal, registerController } from '@aegisjsproject/callback-registry/callbackRegistry.js';
 import { stringifyAttr, createAttribute } from './dom.js';
+import { registerBlob } from './blob-registry.js';
 
 const toData = ([name, val]) => ['data-' + name.replaceAll(/[A-Z]/g, c => `-${c.toLowerCase()}`), val];
 
@@ -116,7 +117,7 @@ export const stringify = thing => {
 				document.adoptedStyleSheets = [...document.adoptedStyleSheets, thing];
 				break;
 			} else if (thing instanceof Blob) {
-				return URL.createObjectURL(thing);
+				return registerBlob(thing);
 			} else if(thing instanceof Date) {
 				return formatDate(thing);
 			} else if (thing instanceof DOMTokenList) {

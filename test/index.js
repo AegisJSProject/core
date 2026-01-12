@@ -1,6 +1,6 @@
 import {
 	html, css, replaceStyles, getUniqueSelector, createComponent, closeRegistration,
-	data, attr, createTrustedHTMLTemplate, createStyleScope,
+	data, attr, createTrustedHTMLTemplate, useScopedStyle,
 } from '@aegisjsproject/core';
 
 import { sanitizer as defaultSanitizer } from '@aegisjsproject/sanitizer/config/html.js';
@@ -44,8 +44,10 @@ document.body.setAttribute(fooEvent, FUNCS.debug.log);
 document.body.dataset[stateKey] = 'bg';
 document.body.dataset[stateStyle] = 'background-color';
 
+const [sheet, style] = useScopedStyle({ media: matchMedia('(min-width: 800px)')});
+
 replaceStyles(document, ...document.adoptedStyleSheets, reset, baseTheme, lightTheme, darkTheme, btn, btnPrimary, btnDanger, btnWarning,
-	btnInfo, btnSystemAccent, btnSuccess, btnLink, btnSecondary,
+	btnInfo, btnSystemAccent, btnSuccess, btnLink, btnSecondary, sheet,
 	css`.${scope} {
 		color: red;
 	}
@@ -58,8 +60,6 @@ replaceStyles(document, ...document.adoptedStyleSheets, reset, baseTheme, lightT
 		margin-block: 1.2rem;
 	}
 `);
-
-const style = createStyleScope(document.body, { media: matchMedia('(min-width: 800px)')});
 
 const DadJoke = await customElements.whenDefined('dad-joke');
 const frag = document.createDocumentFragment();
@@ -83,6 +83,7 @@ try {
 				rgba(20, 20, 20, 0.7) 0%,
 				rgba(20, 20, 20, 0.4) 100%
 			);
+			background-image: ${blob};
 			backdrop-filter: blur(8px);
 			border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);

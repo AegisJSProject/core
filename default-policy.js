@@ -15,8 +15,7 @@ if (! ('trustedTypes' in globalThis && trustedTypes.createPolicy instanceof Func
 				...rest
 			} = {}) {
 				const el = document.createElement('div');
-
-				el.setHTML(input, { elements, attributes, comments, dataAttributes, ...rest });
+				el.setHTML(input, { sanitizer: { elements, attributes, comments, dataAttributes, ...rest }});
 
 				return el.innerHTML;
 			},

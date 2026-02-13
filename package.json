@@ -100,7 +100,7 @@
     "@shgysk8zer0/eslint-config": "^1.0.4",
     "@shgysk8zer0/importmap": "^1.7.5",
     "@shgysk8zer0/polyfills": "^0.6.0",
-    "eslint": "^9.0.0",
+    "eslint": "^10.0.0",
     "rollup": "^4.9.6"
   },
   "dependencies": {

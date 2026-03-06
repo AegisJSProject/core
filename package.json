@@ -104,7 +104,7 @@
     "rollup": "^4.9.6"
   },
   "dependencies": {
-    "@aegisjsproject/callback-registry": "^1.0.3",
+    "@aegisjsproject/callback-registry": "^2.0.0",
     "@aegisjsproject/escape": "^1.0.4",
     "@aegisjsproject/parsers": "^0.1.5",
     "@aegisjsproject/router": "^1.1.3",

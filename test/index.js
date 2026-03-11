@@ -3,6 +3,8 @@ import {
 	data, attr, createTrustedHTMLTemplate, useScopedStyle,
 } from '@aegisjsproject/core';
 
+import { TextState, AttrState, observeSignalRefs } from '../signals.js';
+
 import { sanitizer as defaultSanitizer } from '@aegisjsproject/sanitizer/config/html.js';
 import { FUNCS, observeEvents, on, registerEventAttribute } from '@aegisjsproject/callback-registry';
 import { onChange, onClick, onToggle, onClose, onContextmenu, onWheel, signal, controller as controllerAttr } from '@aegisjsproject/callback-registry/events.js';
@@ -69,6 +71,8 @@ h1.classList.add(scope);
 h1.textContent = 'Hello, World!';
 frag.append(h1);
 
+globalThis.username = new TextState('Fred');
+globalThis.attribute = new AttrState('data-attr', 'foo');
 try {
 	document.body.append(html`<header onclick="alert(location)" foo="bar">
 		${frag}
@@ -112,6 +116,7 @@ try {
 		<button type="button" class="btn btn-danger" ${on('click', ({ target }) => target.remove(), { once: true, signal: controller.signal })}>Remove Btn</button>
 	</nav>
 	<main id="main">
+		<div ${globalThis.attribute}>Hello, ${globalThis.username}</div>
 		${policy.createHTML('<hr />')}
 		${new DadJoke()}
 		${document.getElementById('tmp')}
@@ -190,3 +195,4 @@ setTimeout(() => document.body.dispatchEvent(new Event('foo')), 500);
 observeDOMState(document.documentElement, { signal: controller.signal });
 closeRegistration();
 observeEvents();
+observeSignalRefs(document.getElementById('main'));

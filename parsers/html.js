@@ -7,6 +7,8 @@ import { observeEvents } from '@aegisjsproject/callback-registry';
 
 const sanitizer = Object.freeze({
 	...sanitizerConfig,
+	comments: true,
+	dataAttributes: true,
 	get elements() {
 		return [...sanitizerConfig.elements, ...getRegisteredComponentTags()];
 	},

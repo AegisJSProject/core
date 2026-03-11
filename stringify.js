@@ -128,6 +128,8 @@ export const stringify = thing => {
 				return thing.mediaText;
 			} else if (thing instanceof Attr) {
 				return stringifyAttr(thing);
+			} else if (thing instanceof Comment) {
+				return `<!-- ${thing.textContent.replaceAll(/[<>]/g, char => char === '<' ? '&lt;' : '&gt;')} -->`;
 			} else if (thing instanceof NamedNodeMap) {
 				return Array.from(thing, stringifyAttr).join(' ');
 			} else if ('TrustedType' in globalThis && thing instanceof globalThis.TrustedType) {

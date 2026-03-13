@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.34] - 2026-03-13
+
+### Changed
+- Allow comments in sanitizer for `html` (needed for `@aegisjsproject/iota`)
+
 ## [v0.2.33] - 2026-01-12
 
 ### Added

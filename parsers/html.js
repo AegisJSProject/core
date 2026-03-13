@@ -1,21 +1,22 @@
 import { stringify } from '../stringify.js';
-import { sanitizer as sanitizerConfig } from '@aegisjsproject/sanitizer/config/base.js';
+import { elements, attributes } from '@aegisjsproject/sanitizer/config/base.js';
 import { getRegisteredComponentTags } from '../componentRegistry.js';
 import { createHTMLParser, doc } from '@aegisjsproject/parsers/html.js';
 import { isTrustPolicy } from '../trust.js';
 import { observeEvents } from '@aegisjsproject/callback-registry';
 
-const sanitizer = Object.freeze({
-	...sanitizerConfig,
+const sanitizerConfig = Object.freeze({
+	comments: true,
+	dataAttributes: true,
 	get elements() {
-		return [...sanitizerConfig.elements, ...getRegisteredComponentTags()];
+		return [...elements, ...getRegisteredComponentTags()];
 	},
 	get attributes() {
-		return ['theme', ...sanitizerConfig.attributes];
+		return ['theme', ...attributes];
 	},
 });
 
-export const html = createHTMLParser(sanitizer, { mapper: stringify });
+export const html = createHTMLParser(sanitizerConfig, { mapper: stringify });
 
 export const el = (...args) => html.apply(null, args)?.firstElementChild;
 

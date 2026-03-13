@@ -70,7 +70,7 @@ h1.textContent = 'Hello, World!';
 frag.append(h1);
 
 try {
-	document.body.append(html`<header onclick="alert(location)" foo="bar">
+	document.body.append(html`<!-- Testing comment --><header onclick="alert(location)" foo="bar">
 		${frag}
 		<hello-world></hello-world><h1 foo="bar">Click Me!</h1>
 		<svg viewBox="0 0 10 10" height="24" width="24">

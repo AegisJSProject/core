@@ -1,6 +1,6 @@
 # `@aegisjsproject/core`
 
-A fast, secure, modern, light-weight, and simple JS library for creating web components and more! 
+A fast, secure, modern, light-weight, and simple JS library for creating web components and more!
 
 [![CodeQL](https://github.com/AegisJSProject/core/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/AegisJSProject/core/actions/workflows/codeql-analysis.yml)
 ![Node CI](https://github.com/AegisJSProject/core/workflows/Node%20CI/badge.svg)
